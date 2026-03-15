@@ -22,7 +22,15 @@
       "Bash(npm install:*)",
       "Bash(npm run:*)",
       "Bash(ls:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "mcp__coolify__database",
+      "mcp__coolify__application",
+      "Bash(openssl rand:*)",
+      "mcp__coolify__env_vars",
+      "Bash(for branch:*)",
+      "Bash(# Email agent\ncp .claude/worktrees/agent-a82ac8d2/src/app/api/email/trial-reminders/route.ts src/app/api/email/trial-reminders/route.ts\ncp .claude/worktrees/agent-a82ac8d2/src/app/api/email/welcome/route.ts src/app/api/email/welcome/route.ts\nmkdir -p src/lib/email\ncp .claude/worktrees/agent-a82ac8d2/src/lib/email/send.ts src/lib/email/send.ts\ncp .claude/worktrees/agent-a82ac8d2/src/lib/email/templates.ts src/lib/email/templates.ts\ncp .claude/worktrees/agent-a82ac8d2/src/lib/email/unsubscribe.ts src/lib/email/unsubscribe.ts\necho \"Email files copied\")"
     ]
   }
 }

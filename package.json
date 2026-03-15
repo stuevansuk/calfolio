@@ -14,7 +14,13 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "db:init": "npx tsx scripts/init-db.ts",
+    "db:setup": "npx tsx scripts/setup-db.ts",
+    "db:reset": "npx tsx scripts/reset-db.ts",
+    "db:trigger": "npx tsx scripts/create-trigger.ts",
+    "db:seed": "npx tsx scripts/seed-templates.ts",
+    "db:verify-user": "npx tsx scripts/verify-test-user.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1009.0",

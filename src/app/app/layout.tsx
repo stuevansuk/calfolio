@@ -1,11 +1,17 @@
 "use client";
 
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
+import { useAppStore } from "@/stores/app-store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { TrialCountdownBanner } from "@/components/tier/TrialCountdownBanner";
+import { ExpiredTrialOverlay } from "@/components/tier/ExpiredTrialOverlay";
+import { TierBadge } from "@/components/tier/TierBadge";
+import { getEffectiveTier } from "@/lib/tier-check";
 
 function AuthGate({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  const storeUser = useAppStore((s) => s.user);
   const router = useRouter();
 
   useEffect(() => {
@@ -24,9 +30,14 @@ function AuthGate({ children }: { children: React.ReactNode }) {
 
   if (!user) return null;
 
+  const effectiveTier = storeUser
+    ? getEffectiveTier(storeUser)
+    : null;
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-50 border-b bg-white">
+      <TrialCountdownBanner />
+      <header className="sticky top-0 z-40 border-b bg-white">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
           <a href="/app" className="text-lg font-bold">
             Calfolio
@@ -44,8 +55,14 @@ function AuthGate({ children }: { children: React.ReactNode }) {
             <a href="/app/settings" className="text-sm hover:text-gray-600">
               Settings
             </a>
+            <a href="/app/admin/metrics" className="text-sm text-gray-400 hover:text-gray-600">
+              Admin
+            </a>
           </nav>
-          <div className="text-sm text-gray-500">{user.email}</div>
+          <div className="flex items-center gap-3">
+            {effectiveTier && <TierBadge tier={effectiveTier} />}
+            <span className="text-sm text-gray-500">{user.email}</span>
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
@@ -69,6 +86,7 @@ function AuthGate({ children }: { children: React.ReactNode }) {
           </a>
         </div>
       </nav>
+      <ExpiredTrialOverlay />
     </div>
   );
 }
