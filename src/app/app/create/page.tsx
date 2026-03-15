@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/stores/app-store";
-import type { CalendarTemplate } from "@/types";
+import type { CalendarTemplate, TemplateConfig } from "@/types";
+import { TemplatePreview } from "@/components/calendar/TemplatePreview";
 
 const CATEGORIES = ["all", "minimal", "classic", "modern", "artistic"] as const;
 
@@ -100,7 +101,7 @@ export default function CreateCalendarPage() {
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((template) => {
-              const config = template.config as { colors?: { background?: string } };
+              const config = template.config as TemplateConfig;
               return (
                 <button
                   key={template.id}
@@ -114,12 +115,9 @@ export default function CreateCalendarPage() {
                       : "bg-white"
                   }`}
                 >
-                  <div
-                    className="mb-3 aspect-[3/4] rounded-xl"
-                    style={{
-                      backgroundColor: config?.colors?.background || "#f5f5f5",
-                    }}
-                  />
+                  <div className="mb-3 overflow-hidden rounded-xl border border-stone-100">
+                    <TemplatePreview config={config} className="w-full" />
+                  </div>
                   <div className="flex items-center justify-between">
                     <h3 className="font-medium text-stone-800">{template.name}</h3>
                     {template.isPremium && (
