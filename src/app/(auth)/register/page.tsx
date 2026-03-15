@@ -70,7 +70,7 @@ export default function RegisterPage() {
 
   return (
     <>
-      <h1 className="mb-6 text-center text-xl font-bold text-gray-900">
+      <h1 className="mb-6 text-center text-xl font-bold text-stone-800 font-[family-name:var(--font-heading)]">
         Create your account
       </h1>
 
@@ -84,7 +84,7 @@ export default function RegisterPage() {
         <div>
           <label
             htmlFor="name"
-            className="mb-1 block text-sm font-medium text-gray-700"
+            className="mb-1 block text-sm font-medium text-stone-700"
           >
             Name
           </label>
@@ -95,7 +95,7 @@ export default function RegisterPage() {
             onChange={(e) => setName(e.target.value)}
             required
             autoComplete="name"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
+            className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm focus:border-rose-300 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2 focus:outline-none"
             placeholder="Your name"
           />
         </div>
@@ -103,7 +103,7 @@ export default function RegisterPage() {
         <div>
           <label
             htmlFor="email"
-            className="mb-1 block text-sm font-medium text-gray-700"
+            className="mb-1 block text-sm font-medium text-stone-700"
           >
             Email
           </label>
@@ -114,7 +114,7 @@ export default function RegisterPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
             autoComplete="email"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
+            className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm focus:border-rose-300 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2 focus:outline-none"
             placeholder="you@example.com"
           />
         </div>
@@ -122,7 +122,7 @@ export default function RegisterPage() {
         <div>
           <label
             htmlFor="password"
-            className="mb-1 block text-sm font-medium text-gray-700"
+            className="mb-1 block text-sm font-medium text-stone-700"
           >
             Password
           </label>
@@ -133,7 +133,7 @@ export default function RegisterPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
             autoComplete="new-password"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
+            className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm focus:border-rose-300 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2 focus:outline-none"
             placeholder="At least 8 characters"
           />
         </div>
@@ -141,7 +141,7 @@ export default function RegisterPage() {
         <div>
           <label
             htmlFor="confirmPassword"
-            className="mb-1 block text-sm font-medium text-gray-700"
+            className="mb-1 block text-sm font-medium text-stone-700"
           >
             Confirm Password
           </label>
@@ -152,7 +152,7 @@ export default function RegisterPage() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
             autoComplete="new-password"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-black focus:ring-1 focus:ring-black focus:outline-none"
+            className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm focus:border-rose-300 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2 focus:outline-none"
             placeholder="Repeat your password"
           />
         </div>
@@ -163,13 +163,13 @@ export default function RegisterPage() {
             type="checkbox"
             checked={acceptTerms}
             onChange={(e) => setAcceptTerms(e.target.checked)}
-            className="mt-0.5 h-4 w-4 rounded border-gray-300"
+            className="mt-0.5 h-4 w-4 rounded border-stone-300 text-rose-500 focus:ring-rose-300"
           />
-          <label htmlFor="terms" className="text-sm text-gray-600">
+          <label htmlFor="terms" className="text-sm text-stone-600">
             I agree to the{" "}
             <a
               href="/terms"
-              className="text-black underline hover:no-underline"
+              className="text-rose-500 underline hover:text-rose-600 hover:no-underline"
               target="_blank"
             >
               Terms of Service
@@ -177,7 +177,7 @@ export default function RegisterPage() {
             and{" "}
             <a
               href="/privacy"
-              className="text-black underline hover:no-underline"
+              className="text-rose-500 underline hover:text-rose-600 hover:no-underline"
               target="_blank"
             >
               Privacy Policy
@@ -188,11 +188,11 @@ export default function RegisterPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-lg bg-black px-4 py-2.5 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+          className="w-full rounded-full bg-rose-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-rose-600 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2 disabled:opacity-50"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-white" />
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-stone-300 border-t-white" />
               Creating account...
             </span>
           ) : (
@@ -203,16 +203,16 @@ export default function RegisterPage() {
 
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-200" />
+          <div className="w-full border-t border-stone-200" />
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="bg-white px-3 text-gray-500">or</span>
+          <span className="bg-white px-3 text-stone-500">or</span>
         </div>
       </div>
 
       <button
         onClick={handleGoogleSignUp}
-        className="flex w-full items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        className="flex w-full items-center justify-center gap-3 rounded-full border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-700 hover:bg-stone-50 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2"
       >
         <svg className="h-5 w-5" viewBox="0 0 24 24">
           <path
@@ -235,9 +235,9 @@ export default function RegisterPage() {
         Sign up with Google
       </button>
 
-      <p className="mt-6 text-center text-sm text-gray-500">
+      <p className="mt-6 text-center text-sm text-stone-500">
         Already have an account?{" "}
-        <a href="/login" className="font-medium text-black hover:underline">
+        <a href="/login" className="font-medium text-rose-500 hover:text-rose-600">
           Sign in
         </a>
       </p>

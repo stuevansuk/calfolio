@@ -1,28 +1,28 @@
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white text-gray-900">
+    <main className="min-h-screen bg-stone-50 text-stone-800">
       {/* Header */}
-      <header className="border-b border-gray-100">
+      <header className="border-b border-stone-100">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <span className="text-xl font-bold tracking-tight text-gray-900">
+          <span className="text-xl font-bold tracking-tight text-stone-800">
             Calfolio
           </span>
           <nav className="flex items-center gap-8">
             <a
               href="/templates"
-              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+              className="text-sm font-medium text-stone-500 transition hover:text-stone-800"
             >
               Templates
             </a>
             <a
               href="/pricing"
-              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+              className="text-sm font-medium text-stone-500 transition hover:text-stone-800"
             >
               Pricing
             </a>
             <a
               href="/login"
-              className="rounded-full bg-gray-900 px-5 py-2 text-sm font-medium text-white transition hover:bg-gray-700"
+              className="rounded-full bg-rose-500 px-5 py-2 text-sm font-medium text-white transition hover:bg-rose-600"
             >
               Sign In
             </a>
@@ -31,10 +31,10 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-white">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-white" />
+      <section className="relative overflow-hidden bg-stone-50">
+        <div className="absolute inset-0 bg-gradient-to-b from-rose-50 via-amber-50/50 to-stone-50" />
         <div className="relative mx-auto max-w-4xl px-6 pb-24 pt-28 text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-sm font-medium text-blue-700">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-700">
             <svg
               className="h-4 w-4"
               fill="none"
@@ -50,14 +50,14 @@ export default function Home() {
             </svg>
             13 beautiful templates to choose from
           </div>
-          <h1 className="text-5xl font-extrabold leading-[1.1] tracking-tight text-gray-900 sm:text-6xl">
+          <h1 className="font-[family-name:var(--font-heading)] text-5xl font-normal leading-[1.1] tracking-tight text-stone-800 sm:text-6xl">
             Beautiful photo calendars,
             <br />
-            <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-rose-500 to-orange-400 bg-clip-text text-transparent">
               made simple.
             </span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-gray-500">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-stone-500">
             Upload your favourite photos, pick a style, and create stunning
             personalised wall calendars. Download print-ready PDFs or order
             printed calendars delivered to your door.
@@ -65,30 +65,30 @@ export default function Home() {
           <div className="mt-10 flex items-center justify-center gap-4">
             <a
               href="/register"
-              className="rounded-full bg-gray-900 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-gray-900/20 transition hover:bg-gray-700 hover:shadow-xl"
+              className="rounded-full bg-rose-500 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-rose-500/20 transition hover:bg-rose-600 hover:shadow-xl"
             >
               Start Creating — Free
             </a>
             <a
               href="/templates"
-              className="rounded-full border border-gray-200 bg-white px-8 py-3.5 text-sm font-semibold text-gray-700 transition hover:border-gray-300 hover:bg-gray-50"
+              className="rounded-full border border-stone-200 bg-white px-8 py-3.5 text-sm font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-50"
             >
               Browse Templates
             </a>
           </div>
-          <p className="mt-4 text-xs text-gray-400">
+          <p className="mt-4 text-xs text-stone-400">
             7-day free trial. No credit card required.
           </p>
         </div>
       </section>
 
       {/* How it works */}
-      <section className="border-t border-gray-100 bg-gray-50 py-24">
+      <section className="bg-gradient-to-b from-stone-50 to-white border-t border-stone-100 py-24">
         <div className="mx-auto max-w-5xl px-6">
-          <div className="mb-4 text-center text-sm font-semibold uppercase tracking-widest text-blue-600">
+          <div className="mb-4 text-center text-sm font-semibold uppercase tracking-widest text-rose-500">
             How it works
           </div>
-          <h2 className="mb-16 text-center text-3xl font-bold tracking-tight text-gray-900">
+          <h2 className="font-[family-name:var(--font-heading)] mb-16 text-center text-3xl font-normal tracking-tight text-stone-800">
             Three steps to your perfect calendar
           </h2>
           <div className="grid gap-12 md:grid-cols-3">
@@ -155,13 +155,13 @@ export default function Home() {
               },
             ].map((item) => (
               <div key={item.step} className="text-center">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-50 text-rose-500">
                   {item.icon}
                 </div>
-                <h3 className="mt-5 text-lg font-semibold text-gray-900">
+                <h3 className="mt-5 text-lg font-semibold text-stone-800">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-500">
+                <p className="mt-2 text-sm leading-relaxed text-stone-500">
                   {item.desc}
                 </p>
               </div>
@@ -171,23 +171,23 @@ export default function Home() {
       </section>
 
       {/* Social proof / stats */}
-      <section className="border-t border-gray-100 bg-white py-16">
+      <section className="border-t border-stone-100 bg-white py-16">
         <div className="mx-auto grid max-w-4xl gap-8 px-6 text-center md:grid-cols-3">
           <div>
-            <div className="text-3xl font-bold text-gray-900">13</div>
-            <div className="mt-1 text-sm text-gray-500">
+            <div className="text-3xl font-bold text-stone-800">13</div>
+            <div className="mt-1 text-sm text-stone-500">
               Designer templates
             </div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-gray-900">A4 &amp; A5</div>
-            <div className="mt-1 text-sm text-gray-500">
+            <div className="text-3xl font-bold text-stone-800">A4 &amp; A5</div>
+            <div className="mt-1 text-sm text-stone-500">
               Paper sizes supported
             </div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-gray-900">300 DPI</div>
-            <div className="mt-1 text-sm text-gray-500">
+            <div className="text-3xl font-bold text-stone-800">300 DPI</div>
+            <div className="mt-1 text-sm text-stone-500">
               Print-ready quality
             </div>
           </div>
@@ -195,18 +195,18 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="border-t border-gray-100 bg-gray-900 py-20">
+      <section className="border-t border-stone-100 bg-stone-800 py-20">
         <div className="mx-auto max-w-3xl px-6 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-white">
+          <h2 className="font-[family-name:var(--font-heading)] text-3xl font-normal tracking-tight text-white">
             Ready to create your calendar?
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-gray-400">
+          <p className="mx-auto mt-4 max-w-lg text-stone-400">
             Start your 7-day free trial today. No credit card required. Create
             your first calendar in minutes.
           </p>
           <a
             href="/register"
-            className="mt-8 inline-block rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-gray-900 transition hover:bg-gray-100"
+            className="mt-8 inline-block rounded-full bg-rose-500 px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-rose-600"
           >
             Get Started Free
           </a>
@@ -214,36 +214,36 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-100 bg-white py-10">
+      <footer className="border-t border-stone-100 bg-stone-50 py-10">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6">
           <div>
-            <span className="font-semibold text-gray-900">Calfolio</span>
-            <p className="mt-1 text-xs text-gray-400">
+            <span className="font-semibold text-stone-800">Calfolio</span>
+            <p className="mt-1 text-xs text-stone-400">
               &copy; 2026 Calfolio. All rights reserved.
             </p>
           </div>
           <div className="flex gap-6">
             <a
               href="/pricing"
-              className="text-sm text-gray-500 transition hover:text-gray-700"
+              className="text-sm text-stone-500 transition hover:text-stone-700"
             >
               Pricing
             </a>
             <a
               href="/templates"
-              className="text-sm text-gray-500 transition hover:text-gray-700"
+              className="text-sm text-stone-500 transition hover:text-stone-700"
             >
               Templates
             </a>
             <a
               href="/terms"
-              className="text-sm text-gray-500 transition hover:text-gray-700"
+              className="text-sm text-stone-500 transition hover:text-stone-700"
             >
               Terms
             </a>
             <a
               href="/privacy"
-              className="text-sm text-gray-500 transition hover:text-gray-700"
+              className="text-sm text-stone-500 transition hover:text-stone-700"
             >
               Privacy
             </a>

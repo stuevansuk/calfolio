@@ -63,13 +63,13 @@ export default function CreateCalendarPage() {
       {/* Progress */}
       <div className="mb-8 flex items-center gap-4">
         <div
-          className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${step >= 1 ? "bg-black text-white" : "bg-gray-200"}`}
+          className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${step >= 1 ? "bg-rose-500 text-white" : "bg-stone-200 text-stone-500"}`}
         >
           1
         </div>
-        <div className="h-px flex-1 bg-gray-200" />
+        <div className="h-px flex-1 bg-stone-200" />
         <div
-          className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${step >= 2 ? "bg-black text-white" : "bg-gray-200"}`}
+          className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${step >= 2 ? "bg-rose-500 text-white" : "bg-stone-200 text-stone-500"}`}
         >
           2
         </div>
@@ -77,8 +77,8 @@ export default function CreateCalendarPage() {
 
       {step === 1 && (
         <div>
-          <h1 className="mb-2 text-2xl font-bold">Choose a Template</h1>
-          <p className="mb-6 text-sm text-gray-500">
+          <h1 className="mb-2 text-2xl font-bold text-stone-800 font-[family-name:var(--font-heading)]">Choose a Template</h1>
+          <p className="mb-6 text-sm text-stone-500">
             Select a style for your calendar
           </p>
 
@@ -89,8 +89,8 @@ export default function CreateCalendarPage() {
                 onClick={() => setCategory(cat)}
                 className={`rounded-full px-4 py-1.5 text-sm font-medium capitalize ${
                   category === cat
-                    ? "bg-black text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    ? "bg-rose-50 text-rose-700"
+                    : "bg-stone-100 text-stone-600 hover:bg-stone-200"
                 }`}
               >
                 {cat}
@@ -108,27 +108,27 @@ export default function CreateCalendarPage() {
                     setSelectedTemplate(template.id);
                     setStep(2);
                   }}
-                  className={`rounded-lg border p-4 text-left transition hover:shadow-md ${
+                  className={`rounded-2xl p-4 text-left shadow-sm transition hover:shadow-md ${
                     selectedTemplate === template.id
-                      ? "border-black ring-2 ring-black"
-                      : "border-gray-200"
+                      ? "ring-2 ring-rose-400 bg-white"
+                      : "bg-white"
                   }`}
                 >
                   <div
-                    className="mb-3 aspect-[3/4] rounded"
+                    className="mb-3 aspect-[3/4] rounded-xl"
                     style={{
                       backgroundColor: config?.colors?.background || "#f5f5f5",
                     }}
                   />
                   <div className="flex items-center justify-between">
-                    <h3 className="font-medium">{template.name}</h3>
+                    <h3 className="font-medium text-stone-800">{template.name}</h3>
                     {template.isPremium && (
-                      <span className="rounded bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-800">
+                      <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
                         Pro
                       </span>
                     )}
                   </div>
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-1 text-xs text-stone-500">
                     {template.description}
                   </p>
                 </button>
@@ -142,42 +142,42 @@ export default function CreateCalendarPage() {
         <div>
           <button
             onClick={() => setStep(1)}
-            className="mb-4 text-sm text-gray-500 hover:text-gray-700"
+            className="mb-4 text-sm text-stone-500 hover:text-rose-600"
           >
             &larr; Back to templates
           </button>
-          <h1 className="mb-6 text-2xl font-bold">Configure Your Calendar</h1>
+          <h1 className="mb-6 text-2xl font-bold text-stone-800 font-[family-name:var(--font-heading)]">Configure Your Calendar</h1>
 
           <div className="max-w-md space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-medium">Title</label>
+              <label className="mb-1 block text-sm font-medium text-stone-700">Title</label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="My Calendar 2027"
-                className="w-full rounded-lg border px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm focus:border-rose-300 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2 focus:outline-none"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium">Year</label>
+              <label className="mb-1 block text-sm font-medium text-stone-700">Year</label>
               <input
                 type="number"
                 value={year}
                 onChange={(e) => setYear(Number(e.target.value))}
                 min={2020}
                 max={2100}
-                className="w-full rounded-lg border px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm focus:border-rose-300 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2 focus:outline-none"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium">
+              <label className="mb-1 block text-sm font-medium text-stone-700">
                 Start Month
               </label>
               <select
                 value={startMonth}
                 onChange={(e) => setStartMonth(Number(e.target.value))}
-                className="w-full rounded-lg border px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm focus:border-rose-300 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2 focus:outline-none"
               >
                 {Array.from({ length: 12 }, (_, i) => (
                   <option key={i + 1} value={i + 1}>
@@ -187,7 +187,7 @@ export default function CreateCalendarPage() {
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium">
+              <label className="mb-1 block text-sm font-medium text-stone-700">
                 Paper Size
               </label>
               <div className="flex gap-3">
@@ -195,10 +195,10 @@ export default function CreateCalendarPage() {
                   <button
                     key={size}
                     onClick={() => setPaperSize(size)}
-                    className={`rounded-lg border px-6 py-2 text-sm font-medium ${
+                    className={`rounded-full border px-6 py-2 text-sm font-medium ${
                       paperSize === size
-                        ? "border-black bg-black text-white"
-                        : "hover:bg-gray-50"
+                        ? "border-rose-500 bg-rose-500 text-white"
+                        : "border-stone-200 text-stone-600 hover:bg-stone-50"
                     }`}
                   >
                     {size}
@@ -209,7 +209,7 @@ export default function CreateCalendarPage() {
             <button
               onClick={handleCreate}
               disabled={creating}
-              className="mt-6 w-full rounded-lg bg-black px-4 py-2.5 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+              className="mt-6 w-full rounded-full bg-rose-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-rose-600 disabled:opacity-50 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2"
             >
               {creating ? "Creating..." : "Create Calendar"}
             </button>

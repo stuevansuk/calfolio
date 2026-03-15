@@ -19,8 +19,8 @@ export function ExpiredTrialOverlay() {
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-        <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/60 p-4 backdrop-blur-sm">
+        <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
           {/* Icon */}
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-100">
             <svg
@@ -38,19 +38,19 @@ export function ExpiredTrialOverlay() {
             </svg>
           </div>
 
-          <h2 className="mt-5 text-center text-2xl font-bold text-gray-900">
+          <h2 className="mt-5 text-center text-2xl font-bold text-stone-800 font-[family-name:var(--font-heading)]">
             Your trial has expired
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-500">
+          <p className="mt-2 text-center text-sm text-stone-500">
             Your 7-day free trial has ended. Upgrade to keep creating.
           </p>
 
           {/* What you lose */}
-          <div className="mt-6 rounded-lg bg-gray-50 p-4">
-            <p className="text-sm font-medium text-gray-700">
+          <div className="mt-6 rounded-lg bg-stone-50 p-4">
+            <p className="text-sm font-medium text-stone-700">
               Without upgrading, you can no longer:
             </p>
-            <ul className="mt-2 space-y-1.5 text-sm text-gray-600">
+            <ul className="mt-2 space-y-1.5 text-sm text-stone-600">
               <li className="flex items-start gap-2">
                 <svg
                   className="mt-0.5 h-4 w-4 shrink-0 text-red-400"
@@ -147,13 +147,13 @@ export function ExpiredTrialOverlay() {
           <div className="mt-6 space-y-3">
             <button
               onClick={() => setShowUpgrade(true)}
-              className="w-full rounded-lg bg-black px-4 py-2.5 text-sm font-medium text-white hover:bg-gray-800"
+              className="w-full rounded-full bg-rose-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-rose-600 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2"
             >
               Upgrade Now
             </button>
             <a
               href="/pricing"
-              className="block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-center text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="block w-full rounded-full border border-stone-200 px-4 py-2.5 text-center text-sm font-medium text-stone-700 hover:bg-stone-50"
             >
               View Pricing
             </a>

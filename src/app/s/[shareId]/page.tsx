@@ -41,8 +41,8 @@ export default async function SharedCalendarPage({
   return (
     <main className="mx-auto max-w-4xl px-4 py-12">
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold">{calendar.title}</h1>
-        <p className="mt-2 text-gray-500">
+        <h1 className="text-3xl font-bold text-stone-800 font-[family-name:var(--font-heading)]">{calendar.title}</h1>
+        <p className="mt-2 text-stone-500">
           {calendar.calendarYear} &middot; {calendar.paperSize}
         </p>
       </div>
@@ -50,9 +50,9 @@ export default async function SharedCalendarPage({
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {calendar.pages?.map(
           (page: { id: string; monthIndex: number; imageUrl: string | null }) => (
-            <div key={page.id} className="rounded-lg border bg-white p-3">
+            <div key={page.id} className="rounded-2xl bg-white p-3 shadow-md">
               <div
-                className="aspect-[3/4] rounded bg-gray-100"
+                className="aspect-[3/4] rounded-xl bg-gradient-to-br from-rose-50 to-amber-50"
                 style={{
                   backgroundImage: page.imageUrl
                     ? `url(${page.imageUrl})`
@@ -61,7 +61,7 @@ export default async function SharedCalendarPage({
                   backgroundPosition: "center",
                 }}
               />
-              <p className="mt-2 text-center text-sm font-medium">
+              <p className="mt-2 text-center text-sm font-medium text-stone-700">
                 {MONTH_NAMES[page.monthIndex]}
               </p>
             </div>
@@ -70,9 +70,9 @@ export default async function SharedCalendarPage({
       </div>
 
       <div className="mt-12 text-center">
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-stone-400">
           Made with{" "}
-          <a href="/" className="text-gray-600 hover:underline">
+          <a href="/" className="text-rose-500 hover:text-rose-600 hover:underline">
             Calfolio
           </a>
         </p>

@@ -22,62 +22,62 @@ export default function OrderDetailPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-black" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-stone-200 border-t-rose-500" />
       </div>
     );
   }
 
   if (!order) {
-    return <div className="py-20 text-center text-gray-500">Order not found</div>;
+    return <div className="py-20 text-center text-stone-500">Order not found</div>;
   }
 
   return (
     <div className="mx-auto max-w-lg">
-      <h1 className="mb-6 text-2xl font-bold">
+      <h1 className="mb-6 text-2xl font-bold text-stone-800 font-[family-name:var(--font-heading)]">
         Order #{order.id.slice(0, 8)}
       </h1>
 
       <div className="space-y-4">
-        <div className="rounded-lg border bg-white p-4">
-          <h2 className="mb-3 font-medium">Status</h2>
-          <span className="inline-block rounded-full bg-gray-100 px-3 py-1 text-sm font-medium capitalize">
+        <div className="rounded-2xl bg-white p-4 shadow-sm">
+          <h2 className="mb-3 font-medium text-stone-800">Status</h2>
+          <span className="inline-block rounded-full bg-amber-50 px-3 py-1 text-sm font-medium capitalize text-amber-700">
             {order.status.replace(/_/g, " ")}
           </span>
         </div>
 
         {order.trackingUrl && (
-          <div className="rounded-lg border bg-white p-4">
-            <h2 className="mb-3 font-medium">Tracking</h2>
+          <div className="rounded-2xl bg-white p-4 shadow-sm">
+            <h2 className="mb-3 font-medium text-stone-800">Tracking</h2>
             <a
               href={order.trackingUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-blue-600 hover:underline"
+              className="text-sm text-rose-600 hover:text-rose-700 hover:underline"
             >
               Track your package &rarr;
             </a>
           </div>
         )}
 
-        <div className="rounded-lg border bg-white p-4">
-          <h2 className="mb-3 font-medium">Details</h2>
+        <div className="rounded-2xl bg-white p-4 shadow-sm">
+          <h2 className="mb-3 font-medium text-stone-800">Details</h2>
           <dl className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <dt className="text-gray-500">Paper Size</dt>
-              <dd>{order.paperSize}</dd>
+              <dt className="text-stone-500">Paper Size</dt>
+              <dd className="text-stone-800">{order.paperSize}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-gray-500">Quantity</dt>
-              <dd>{order.quantity}</dd>
+              <dt className="text-stone-500">Quantity</dt>
+              <dd className="text-stone-800">{order.quantity}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-gray-500">Shipping</dt>
-              <dd className="capitalize">{order.shippingMethod}</dd>
+              <dt className="text-stone-500">Shipping</dt>
+              <dd className="capitalize text-stone-800">{order.shippingMethod}</dd>
             </div>
             {order.retailPriceCents && (
-              <div className="flex justify-between border-t pt-2 font-medium">
-                <dt>Total</dt>
-                <dd>&pound;{(order.retailPriceCents / 100).toFixed(2)}</dd>
+              <div className="flex justify-between border-t border-stone-100 pt-2 font-medium">
+                <dt className="text-stone-800">Total</dt>
+                <dd className="text-stone-800">&pound;{(order.retailPriceCents / 100).toFixed(2)}</dd>
               </div>
             )}
           </dl>

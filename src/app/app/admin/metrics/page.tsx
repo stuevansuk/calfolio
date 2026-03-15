@@ -60,7 +60,7 @@ function formatNumber(n: number): string {
 function Spinner() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
-      <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-black" />
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-stone-200 border-t-rose-500" />
     </div>
   );
 }
@@ -75,10 +75,10 @@ function StatCard({
   subtitle?: string;
 }) {
   return (
-    <div className="rounded-lg border bg-white p-6">
-      <p className="text-sm font-medium text-gray-500">{label}</p>
-      <p className="mt-2 text-3xl font-bold">{value}</p>
-      {subtitle && <p className="mt-1 text-sm text-gray-400">{subtitle}</p>}
+    <div className="rounded-2xl bg-white p-6 shadow-sm">
+      <p className="text-sm font-medium text-stone-500">{label}</p>
+      <p className="mt-2 text-3xl font-bold text-stone-800">{value}</p>
+      {subtitle && <p className="mt-1 text-sm text-stone-400">{subtitle}</p>}
     </div>
   );
 }
@@ -142,7 +142,7 @@ export default function AdminMetricsPage() {
   if (error) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="rounded-lg border border-red-200 bg-red-50 p-8 text-center">
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center shadow-sm">
           <p className="text-lg font-medium text-red-800">{error}</p>
           <a
             href="/app"
@@ -175,14 +175,14 @@ export default function AdminMetricsPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Admin Metrics</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-stone-800 font-[family-name:var(--font-heading)]">Admin Metrics</h1>
+          <p className="mt-1 text-sm text-stone-500">
             Platform overview and analytics
           </p>
         </div>
         <a
           href="/app/admin/feedback"
-          className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+          className="rounded-full bg-rose-500 px-4 py-2 text-sm font-medium text-white hover:bg-rose-600 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2"
         >
           Manage Feedback
         </a>
@@ -211,15 +211,15 @@ export default function AdminMetricsPage() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
         {/* Tier Breakdown */}
         {overview && (
-          <div className="rounded-lg border bg-white p-6">
-            <h2 className="text-lg font-semibold">Tier Breakdown</h2>
+          <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <h2 className="text-lg font-semibold text-stone-800">Tier Breakdown</h2>
             <div className="mt-4 space-y-3">
               {(
                 [
-                  { key: "trial" as const, label: "Trial", color: "bg-yellow-400" },
-                  { key: "hobby" as const, label: "Hobby", color: "bg-blue-400" },
-                  { key: "pro" as const, label: "Pro", color: "bg-green-400" },
-                  { key: "free" as const, label: "Free", color: "bg-gray-400" },
+                  { key: "trial" as const, label: "Trial", color: "bg-amber-400" },
+                  { key: "hobby" as const, label: "Hobby", color: "bg-rose-400" },
+                  { key: "pro" as const, label: "Pro", color: "bg-emerald-400" },
+                  { key: "free" as const, label: "Free", color: "bg-stone-400" },
                 ] as const
               ).map(({ key, label, color }) => {
                 const count = Number(overview.tierBreakdown[key]) || 0;
@@ -228,12 +228,12 @@ export default function AdminMetricsPage() {
                 return (
                   <div key={key}>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="font-medium">{label}</span>
-                      <span className="text-gray-500">
+                      <span className="font-medium text-stone-700">{label}</span>
+                      <span className="text-stone-500">
                         {formatNumber(count)} ({pct}%)
                       </span>
                     </div>
-                    <div className="mt-1 h-2 overflow-hidden rounded-full bg-gray-100">
+                    <div className="mt-1 h-2 overflow-hidden rounded-full bg-stone-100">
                       <div
                         className={`h-full rounded-full ${color}`}
                         style={{ width: `${pct}%` }}
@@ -248,63 +248,63 @@ export default function AdminMetricsPage() {
 
         {/* Content Stats */}
         {content && (
-          <div className="rounded-lg border bg-white p-6">
-            <h2 className="text-lg font-semibold">Content Stats</h2>
+          <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <h2 className="text-lg font-semibold text-stone-800">Content Stats</h2>
             <div className="mt-4 space-y-4">
               <div>
-                <h3 className="text-sm font-medium text-gray-500">
+                <h3 className="text-sm font-medium text-stone-500">
                   Project Status
                 </h3>
                 <div className="mt-2 space-y-2">
                   <div className="flex items-center justify-between text-sm">
                     <span className="flex items-center gap-2">
-                      <span className="inline-block h-2 w-2 rounded-full bg-gray-400" />
+                      <span className="inline-block h-2 w-2 rounded-full bg-stone-400" />
                       Draft
                     </span>
-                    <span className="font-medium">
+                    <span className="font-medium text-stone-800">
                       {formatNumber(Number(content.statusBreakdown.draft))}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="flex items-center gap-2">
-                      <span className="inline-block h-2 w-2 rounded-full bg-green-400" />
+                      <span className="inline-block h-2 w-2 rounded-full bg-emerald-400" />
                       Completed
                     </span>
-                    <span className="font-medium">
+                    <span className="font-medium text-stone-800">
                       {formatNumber(Number(content.statusBreakdown.completed))}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="flex items-center gap-2">
-                      <span className="inline-block h-2 w-2 rounded-full bg-blue-400" />
+                      <span className="inline-block h-2 w-2 rounded-full bg-rose-400" />
                       Ordered
                     </span>
-                    <span className="font-medium">
+                    <span className="font-medium text-stone-800">
                       {formatNumber(Number(content.statusBreakdown.ordered))}
                     </span>
                   </div>
                 </div>
               </div>
-              <div className="border-t pt-4">
-                <h3 className="text-sm font-medium text-gray-500">
+              <div className="border-t border-stone-100 pt-4">
+                <h3 className="text-sm font-medium text-stone-500">
                   Paper Size
                 </h3>
                 <div className="mt-2 flex gap-4">
-                  <div className="flex-1 rounded-lg bg-gray-50 p-3 text-center">
-                    <p className="text-2xl font-bold">
+                  <div className="flex-1 rounded-xl bg-stone-50 p-3 text-center">
+                    <p className="text-2xl font-bold text-stone-800">
                       {formatNumber(Number(content.sizeBreakdown.a4))}
                     </p>
-                    <p className="text-xs text-gray-500">A4</p>
+                    <p className="text-xs text-stone-500">A4</p>
                   </div>
-                  <div className="flex-1 rounded-lg bg-gray-50 p-3 text-center">
-                    <p className="text-2xl font-bold">
+                  <div className="flex-1 rounded-xl bg-stone-50 p-3 text-center">
+                    <p className="text-2xl font-bold text-stone-800">
                       {formatNumber(Number(content.sizeBreakdown.a5))}
                     </p>
-                    <p className="text-xs text-gray-500">A5</p>
+                    <p className="text-xs text-stone-500">A5</p>
                   </div>
                 </div>
                 {totalProjects > 0 && (
-                  <p className="mt-2 text-xs text-gray-400 text-center">
+                  <p className="mt-2 text-xs text-stone-400 text-center">
                     {formatNumber(totalProjects)} total projects
                   </p>
                 )}
@@ -315,57 +315,57 @@ export default function AdminMetricsPage() {
 
         {/* Revenue */}
         {revenue && (
-          <div className="rounded-lg border bg-white p-6">
-            <h2 className="text-lg font-semibold">Revenue</h2>
+          <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <h2 className="text-lg font-semibold text-stone-800">Revenue</h2>
             <div className="mt-4 space-y-4">
               <div>
-                <h3 className="text-sm font-medium text-gray-500">
+                <h3 className="text-sm font-medium text-stone-500">
                   Print Orders
                 </h3>
                 <div className="mt-2 space-y-2">
                   <div className="flex items-center justify-between text-sm">
-                    <span>Total Revenue</span>
-                    <span className="font-medium">
+                    <span className="text-stone-600">Total Revenue</span>
+                    <span className="font-medium text-stone-800">
                       {formatCurrency(revenue.printOrders.totalRevenueCents)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span>Total Cost</span>
-                    <span className="font-medium text-gray-500">
+                    <span className="text-stone-600">Total Cost</span>
+                    <span className="font-medium text-stone-500">
                       {formatCurrency(revenue.printOrders.totalCostCents)}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between border-t pt-2 text-sm">
-                    <span className="font-medium">Margin</span>
-                    <span className="font-bold text-green-600">
+                  <div className="flex items-center justify-between border-t border-stone-100 pt-2 text-sm">
+                    <span className="font-medium text-stone-700">Margin</span>
+                    <span className="font-bold text-emerald-600">
                       {formatCurrency(revenue.printOrders.marginCents)} (
                       {marginPercent}%)
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span>Paid Orders</span>
-                    <span className="font-medium">
+                    <span className="text-stone-600">Paid Orders</span>
+                    <span className="font-medium text-stone-800">
                       {formatNumber(revenue.printOrders.totalOrders)}
                     </span>
                   </div>
                 </div>
               </div>
-              <div className="border-t pt-4">
-                <h3 className="text-sm font-medium text-gray-500">
+              <div className="border-t border-stone-100 pt-4">
+                <h3 className="text-sm font-medium text-stone-500">
                   Subscribers
                 </h3>
                 <div className="mt-2 flex gap-4">
-                  <div className="flex-1 rounded-lg bg-blue-50 p-3 text-center">
-                    <p className="text-2xl font-bold text-blue-700">
+                  <div className="flex-1 rounded-xl bg-rose-50 p-3 text-center">
+                    <p className="text-2xl font-bold text-rose-700">
                       {formatNumber(Number(revenue.subscribers.hobby))}
                     </p>
-                    <p className="text-xs text-blue-500">Hobby</p>
+                    <p className="text-xs text-rose-500">Hobby</p>
                   </div>
-                  <div className="flex-1 rounded-lg bg-green-50 p-3 text-center">
-                    <p className="text-2xl font-bold text-green-700">
+                  <div className="flex-1 rounded-xl bg-emerald-50 p-3 text-center">
+                    <p className="text-2xl font-bold text-emerald-700">
                       {formatNumber(Number(revenue.subscribers.pro))}
                     </p>
-                    <p className="text-xs text-green-500">Pro</p>
+                    <p className="text-xs text-emerald-500">Pro</p>
                   </div>
                 </div>
               </div>
@@ -375,33 +375,33 @@ export default function AdminMetricsPage() {
 
         {/* Engagement */}
         {engagement && (
-          <div className="rounded-lg border bg-white p-6">
-            <h2 className="text-lg font-semibold">Engagement</h2>
+          <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <h2 className="text-lg font-semibold text-stone-800">Engagement</h2>
             <div className="mt-4 space-y-3">
-              <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
-                <span className="text-sm text-gray-600">Active Last Week</span>
-                <span className="text-xl font-bold">
+              <div className="flex items-center justify-between rounded-xl bg-stone-50 p-3">
+                <span className="text-sm text-stone-600">Active Last Week</span>
+                <span className="text-xl font-bold text-stone-800">
                   {formatNumber(engagement.activeLastWeek)}
                 </span>
               </div>
-              <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
-                <span className="text-sm text-gray-600">
+              <div className="flex items-center justify-between rounded-xl bg-stone-50 p-3">
+                <span className="text-sm text-stone-600">
                   Active Last Month
                 </span>
-                <span className="text-xl font-bold">
+                <span className="text-xl font-bold text-stone-800">
                   {formatNumber(engagement.activeLastMonth)}
                 </span>
               </div>
-              <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
-                <span className="text-sm text-gray-600">
+              <div className="flex items-center justify-between rounded-xl bg-stone-50 p-3">
+                <span className="text-sm text-stone-600">
                   New Users Last Week
                 </span>
-                <span className="text-xl font-bold">
+                <span className="text-xl font-bold text-stone-800">
                   {formatNumber(engagement.newUsersLastWeek)}
                 </span>
               </div>
               {overview && overview.totalUsers > 0 && (
-                <p className="text-xs text-gray-400 text-center">
+                <p className="text-xs text-stone-400 text-center">
                   {(
                     (engagement.activeLastMonth / overview.totalUsers) *
                     100

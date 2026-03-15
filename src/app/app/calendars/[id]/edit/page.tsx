@@ -26,13 +26,13 @@ export default function CalendarEditorPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-black" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-stone-200 border-t-rose-500" />
       </div>
     );
   }
 
   if (!currentProject) {
-    return <div className="py-20 text-center text-gray-500">Calendar not found</div>;
+    return <div className="py-20 text-center text-stone-500">Calendar not found</div>;
   }
 
   const pages = currentProject.pages || [];
@@ -56,19 +56,19 @@ export default function CalendarEditorPage() {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">{currentProject.title}</h1>
-          <p className="text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-stone-800 font-[family-name:var(--font-heading)]">{currentProject.title}</h1>
+          <p className="text-sm text-stone-500">
             {currentProject.calendarYear} &middot; {currentProject.paperSize}
           </p>
         </div>
         <div className="flex gap-2">
           <a
             href={`/app/calendars/${id}/order`}
-            className="rounded-lg border px-4 py-2 text-sm font-medium hover:bg-gray-50"
+            className="rounded-full border border-stone-200 px-4 py-2 text-sm font-medium text-stone-600 hover:bg-stone-50"
           >
             Order Print
           </a>
-          <button className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800">
+          <button className="rounded-full bg-rose-500 px-4 py-2 text-sm font-medium text-white hover:bg-rose-600 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2">
             Download PDF
           </button>
         </div>
@@ -76,10 +76,10 @@ export default function CalendarEditorPage() {
 
       <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
         {/* Image upload sidebar */}
-        <div className="rounded-lg border bg-white p-4">
-          <h2 className="mb-3 font-medium">Images</h2>
-          <div className="mb-4 rounded-lg border-2 border-dashed border-gray-200 p-8 text-center">
-            <p className="text-sm text-gray-500">
+        <div className="rounded-2xl bg-stone-50 p-4 shadow-sm">
+          <h2 className="mb-3 font-medium text-stone-800">Images</h2>
+          <div className="mb-4 rounded-xl border-2 border-dashed border-rose-200 bg-rose-50/30 p-8 text-center">
+            <p className="text-sm text-stone-500">
               Drag & drop images here or click to upload
             </p>
             <input
@@ -101,14 +101,14 @@ export default function CalendarEditorPage() {
               <button
                 key={page.id}
                 onClick={() => setSelectedPageIndex(page.monthIndex)}
-                className={`rounded-lg border p-2 text-left transition hover:shadow-md ${
+                className={`rounded-xl p-2 text-left shadow-sm transition hover:shadow-md ${
                   selectedPageIndex === page.monthIndex
-                    ? "border-black ring-2 ring-black"
-                    : "border-gray-200"
+                    ? "ring-2 ring-rose-400 bg-white"
+                    : "bg-white"
                 }`}
               >
                 <div
-                  className="aspect-[3/4] rounded bg-gray-100"
+                  className="aspect-[3/4] rounded-lg bg-gradient-to-br from-rose-50 to-amber-50"
                   style={{
                     backgroundImage: page.imageUrl
                       ? `url(${page.imageUrl})`
@@ -117,7 +117,7 @@ export default function CalendarEditorPage() {
                     backgroundPosition: "center",
                   }}
                 />
-                <p className="mt-1.5 text-center text-xs font-medium">
+                <p className="mt-1.5 text-center text-xs font-medium text-stone-600">
                   {MONTH_NAMES[page.monthIndex]}
                 </p>
               </button>

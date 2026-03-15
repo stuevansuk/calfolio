@@ -31,7 +31,7 @@ export function TrialCountdownBanner() {
 
   return (
     <>
-      <div className="border-b border-amber-200 bg-yellow-50">
+      <div className="border-b border-amber-200 bg-amber-50">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex-1">
             <div className="flex items-center gap-2">
@@ -48,7 +48,7 @@ export function TrialCountdownBanner() {
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <p className="text-sm font-medium text-amber-900">
+              <p className="text-sm font-medium text-amber-700">
                 {daysRemaining === 0
                   ? "Your trial ends today"
                   : daysRemaining === 1
@@ -66,7 +66,7 @@ export function TrialCountdownBanner() {
             </div>
 
             {/* Usage stats */}
-            <div className="mt-1.5 flex gap-4 text-xs text-amber-700">
+            <div className="mt-1.5 flex gap-4 text-xs text-amber-600">
               <span>
                 Calendars: {calendarsUsed}/{calendarsLimit}
               </span>
@@ -78,7 +78,7 @@ export function TrialCountdownBanner() {
 
           <button
             onClick={() => setShowUpgrade(true)}
-            className="shrink-0 rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700"
+            className="shrink-0 rounded-full bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700 focus:ring-2 focus:ring-amber-300 focus:ring-offset-2"
           >
             Upgrade
           </button>

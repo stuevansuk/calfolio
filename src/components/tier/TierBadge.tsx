@@ -12,19 +12,19 @@ type TierBadgeProps = {
 const tierConfig: Record<Tier, { label: string; classes: string }> = {
   trial: {
     label: "Trial",
-    classes: "bg-yellow-100 text-yellow-800",
+    classes: "bg-amber-100 text-amber-700",
   },
   hobby: {
     label: "Hobby",
-    classes: "bg-blue-100 text-blue-800",
+    classes: "bg-rose-100 text-rose-700",
   },
   pro: {
     label: "Pro",
-    classes: "bg-purple-100 text-purple-800",
+    classes: "bg-violet-100 text-violet-700",
   },
   free: {
     label: "Free",
-    classes: "bg-gray-100 text-gray-600",
+    classes: "bg-stone-200 text-stone-600",
   },
 };
 

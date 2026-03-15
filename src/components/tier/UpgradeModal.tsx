@@ -67,7 +67,7 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/50 p-4 backdrop-blur-sm"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -76,14 +76,14 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
         {/* Header */}
         <div className="mb-6 flex items-start justify-between">
           <div>
-            <h2 className="text-2xl font-bold">Upgrade your plan</h2>
-            <p className="mt-1 text-sm text-gray-500">
+            <h2 className="text-2xl font-bold text-stone-800 font-[family-name:var(--font-heading)]">Upgrade your plan</h2>
+            <p className="mt-1 text-sm text-stone-500">
               Choose the plan that works for you.
             </p>
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+            className="rounded-lg p-1 text-stone-400 hover:bg-stone-100 hover:text-stone-600"
             aria-label="Close"
           >
             <svg
@@ -105,7 +105,7 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
         {/* Interval toggle */}
         <div className="mb-6 flex items-center justify-center gap-3">
           <span
-            className={`text-sm ${interval === "monthly" ? "font-medium text-gray-900" : "text-gray-500"}`}
+            className={`text-sm ${interval === "monthly" ? "font-medium text-stone-800" : "text-stone-500"}`}
           >
             Monthly
           </span>
@@ -114,7 +114,7 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
               setInterval(interval === "monthly" ? "annual" : "monthly")
             }
             className={`relative h-6 w-11 rounded-full transition-colors ${
-              interval === "annual" ? "bg-black" : "bg-gray-300"
+              interval === "annual" ? "bg-rose-500" : "bg-stone-300"
             }`}
             aria-label="Toggle billing interval"
           >
@@ -125,7 +125,7 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
             />
           </button>
           <span
-            className={`text-sm ${interval === "annual" ? "font-medium text-gray-900" : "text-gray-500"}`}
+            className={`text-sm ${interval === "annual" ? "font-medium text-stone-800" : "text-stone-500"}`}
           >
             Annual
           </span>
@@ -141,31 +141,31 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
           {plans.map((plan) => (
             <div
               key={plan.tier}
-              className={`rounded-xl border-2 p-5 ${
+              className={`rounded-2xl border-2 p-5 ${
                 plan.popular
-                  ? "border-black"
-                  : "border-gray-200"
+                  ? "border-rose-300 shadow-md"
+                  : "border-stone-200"
               }`}
             >
               {plan.popular && (
-                <span className="mb-3 inline-block rounded-full bg-black px-2.5 py-0.5 text-xs font-medium text-white">
+                <span className="mb-3 inline-block rounded-full bg-rose-500 px-2.5 py-0.5 text-xs font-medium text-white">
                   Most popular
                 </span>
               )}
-              <h3 className="text-lg font-bold">{plan.name}</h3>
+              <h3 className="text-lg font-bold text-stone-800">{plan.name}</h3>
               <p className="mt-1">
-                <span className="text-3xl font-bold">
+                <span className="text-3xl font-bold text-stone-800">
                   &pound;
                   {interval === "monthly"
                     ? plan.monthlyPrice
                     : plan.annualPrice}
                 </span>
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-stone-500">
                   /{interval === "monthly" ? "mo" : "yr"}
                 </span>
               </p>
               {interval === "annual" && (
-                <p className="mt-0.5 text-xs text-gray-500">
+                <p className="mt-0.5 text-xs text-stone-500">
                   &pound;{(plan.annualPrice / 12).toFixed(2)}/mo billed
                   annually
                 </p>
@@ -186,13 +186,13 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
                         d="M5 13l4 4L19 7"
                       />
                     </svg>
-                    {f}
+                    <span className="text-stone-700">{f}</span>
                   </li>
                 ))}
                 {plan.missingFeatures.map((f) => (
                   <li
                     key={f}
-                    className="flex items-start gap-2 text-gray-400"
+                    className="flex items-start gap-2 text-stone-400"
                   >
                     <svg
                       className="mt-0.5 h-4 w-4 shrink-0"
@@ -214,15 +214,15 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
               <button
                 onClick={() => handleCheckout(plan.tier)}
                 disabled={loading !== null}
-                className={`mt-5 w-full rounded-lg px-4 py-2.5 text-sm font-medium transition-colors disabled:opacity-50 ${
+                className={`mt-5 w-full rounded-full px-4 py-2.5 text-sm font-medium transition-colors disabled:opacity-50 ${
                   plan.popular
-                    ? "bg-black text-white hover:bg-gray-800"
-                    : "border border-gray-300 bg-white text-gray-900 hover:bg-gray-50"
+                    ? "bg-rose-500 text-white hover:bg-rose-600"
+                    : "border border-stone-200 bg-white text-stone-800 hover:bg-stone-50"
                 }`}
               >
                 {loading === plan.tier ? (
                   <span className="flex items-center justify-center gap-2">
-                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-current" />
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-stone-300 border-t-current" />
                     Processing...
                   </span>
                 ) : (
