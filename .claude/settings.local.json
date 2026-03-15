@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.prodigi.com)",
+      "WebFetch(domain:www.gelato.com)",
+      "WebSearch",
+      "WebFetch(domain:www.peecho.com)",
+      "WebFetch(domain:mixam.co.uk)",
+      "WebFetch(domain:www.printful.com)",
+      "WebFetch(domain:www.gooten.com)",
+      "mcp__coolify__get_infrastructure_overview",
+      "mcp__coolify__projects",
+      "mcp__coolify__environments",
+      "mcp__coolify__get_application",
+      "mcp__coolify__github_apps",
+      "WebFetch(domain:developers.cloudflare.com)",
+      "WebFetch(domain:www.backblaze.com)",
+      "Bash(node:*)",
+      "Bash(cp:*)",
+      "Bash(npx:*)",
+      "Bash(mv:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(ls:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
