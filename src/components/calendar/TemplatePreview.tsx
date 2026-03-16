@@ -22,6 +22,165 @@ function isWeekend(colIndex: number): boolean {
   return colIndex >= 5;
 }
 
+function getPhotoScene(bgColor: string): number {
+  const hex = bgColor.replace("#", "");
+  let hash = 0;
+  for (let i = 0; i < hex.length; i++) {
+    hash = hex.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash) % 6;
+}
+
+function renderPhotoScene(
+  sceneIndex: number,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  gradientId: string,
+): React.ReactNode {
+  switch (sceneIndex) {
+    // Sunset landscape
+    case 0:
+      return (
+        <>
+          <defs>
+            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#1e3a5f" />
+              <stop offset="35%" stopColor="#e8756a" />
+              <stop offset="65%" stopColor="#f4a261" />
+              <stop offset="100%" stopColor="#fcd89d" />
+            </linearGradient>
+          </defs>
+          <rect x={x} y={y} width={w} height={h} rx={2} fill={`url(#${gradientId})`} />
+          <circle cx={x + w * 0.7} cy={y + h * 0.55} r={h * 0.08} fill="#fbbf24" opacity={0.9} />
+          <polygon
+            points={`${x},${y + h * 0.75} ${x + w * 0.25},${y + h * 0.55} ${x + w * 0.5},${y + h * 0.7} ${x + w * 0.75},${y + h * 0.5} ${x + w},${y + h * 0.65} ${x + w},${y + h} ${x},${y + h}`}
+            fill="#2d1b3d"
+            opacity={0.7}
+          />
+        </>
+      );
+
+    // Beach scene
+    case 1:
+      return (
+        <>
+          <defs>
+            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#87ceeb" />
+              <stop offset="50%" stopColor="#a8e6f0" />
+              <stop offset="70%" stopColor="#38bdf8" />
+              <stop offset="85%" stopColor="#e8d5a3" />
+              <stop offset="100%" stopColor="#f5e6c8" />
+            </linearGradient>
+          </defs>
+          <rect x={x} y={y} width={w} height={h} rx={2} fill={`url(#${gradientId})`} />
+          <ellipse cx={x + w * 0.3} cy={y + h * 0.2} rx={w * 0.12} ry={h * 0.06} fill="white" opacity={0.7} />
+          <ellipse cx={x + w * 0.35} cy={y + h * 0.2} rx={w * 0.08} ry={h * 0.05} fill="white" opacity={0.5} />
+        </>
+      );
+
+    // Mountain lake
+    case 2:
+      return (
+        <>
+          <defs>
+            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#94a3b8" />
+              <stop offset="40%" stopColor="#cbd5e1" />
+              <stop offset="55%" stopColor="#4a7c59" />
+              <stop offset="70%" stopColor="#3b82c4" />
+              <stop offset="100%" stopColor="#60a5d4" />
+            </linearGradient>
+          </defs>
+          <rect x={x} y={y} width={w} height={h} rx={2} fill={`url(#${gradientId})`} />
+          <polygon
+            points={`${x},${y + h * 0.5} ${x + w * 0.2},${y + h * 0.2} ${x + w * 0.35},${y + h * 0.4} ${x + w * 0.55},${y + h * 0.15} ${x + w * 0.75},${y + h * 0.35} ${x + w},${y + h * 0.45} ${x + w},${y + h * 0.5} ${x},${y + h * 0.5}`}
+            fill="#6b7c8d"
+            opacity={0.6}
+          />
+          <rect x={x} y={y + h * 0.5} width={w} height={h * 0.05} fill="#4a7c59" opacity={0.5} />
+        </>
+      );
+
+    // Flower garden
+    case 3:
+      return (
+        <>
+          <defs>
+            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#d4edda" />
+              <stop offset="100%" stopColor="#a8d5a2" />
+            </linearGradient>
+          </defs>
+          <rect x={x} y={y} width={w} height={h} rx={2} fill={`url(#${gradientId})`} />
+          <circle cx={x + w * 0.2} cy={y + h * 0.4} r={h * 0.06} fill="#f472b6" opacity={0.8} />
+          <circle cx={x + w * 0.5} cy={y + h * 0.3} r={h * 0.05} fill="#fbbf24" opacity={0.8} />
+          <circle cx={x + w * 0.75} cy={y + h * 0.5} r={h * 0.07} fill="#c084fc" opacity={0.7} />
+          <circle cx={x + w * 0.35} cy={y + h * 0.7} r={h * 0.05} fill="#fb923c" opacity={0.7} />
+          <circle cx={x + w * 0.65} cy={y + h * 0.75} r={h * 0.04} fill="#f472b6" opacity={0.6} />
+        </>
+      );
+
+    // Family portrait style (warm bokeh)
+    case 4:
+      return (
+        <>
+          <defs>
+            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#e8d5c4" />
+              <stop offset="50%" stopColor="#d4b896" />
+              <stop offset="100%" stopColor="#c9a88c" />
+            </linearGradient>
+          </defs>
+          <rect x={x} y={y} width={w} height={h} rx={2} fill={`url(#${gradientId})`} />
+          <circle cx={x + w * 0.15} cy={y + h * 0.25} r={h * 0.1} fill="#fef3c7" opacity={0.3} />
+          <circle cx={x + w * 0.7} cy={y + h * 0.2} r={h * 0.08} fill="#fde68a" opacity={0.25} />
+          <circle cx={x + w * 0.85} cy={y + h * 0.6} r={h * 0.12} fill="#fef3c7" opacity={0.2} />
+          <circle cx={x + w * 0.4} cy={y + h * 0.7} r={h * 0.07} fill="#fde68a" opacity={0.3} />
+        </>
+      );
+
+    // Autumn forest
+    case 5:
+      return (
+        <>
+          <defs>
+            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#f59e0b" />
+              <stop offset="50%" stopColor="#d97706" />
+              <stop offset="100%" stopColor="#92400e" />
+            </linearGradient>
+          </defs>
+          <rect x={x} y={y} width={w} height={h} rx={2} fill={`url(#${gradientId})`} />
+          <polygon
+            points={`${x + w * 0.15},${y + h} ${x + w * 0.15},${y + h * 0.4} ${x + w * 0.05},${y + h * 0.5} ${x + w * 0.15},${y + h * 0.3} ${x + w * 0.25},${y + h * 0.5} ${x + w * 0.15},${y + h * 0.4}`}
+            fill="#7c2d12"
+            opacity={0.6}
+          />
+          <polygon
+            points={`${x + w * 0.55},${y + h} ${x + w * 0.55},${y + h * 0.35} ${x + w * 0.42},${y + h * 0.5} ${x + w * 0.55},${y + h * 0.25} ${x + w * 0.68},${y + h * 0.5} ${x + w * 0.55},${y + h * 0.35}`}
+            fill="#991b1b"
+            opacity={0.5}
+          />
+          <polygon
+            points={`${x + w * 0.85},${y + h} ${x + w * 0.85},${y + h * 0.45} ${x + w * 0.75},${y + h * 0.55} ${x + w * 0.85},${y + h * 0.35} ${x + w * 0.95},${y + h * 0.55} ${x + w * 0.85},${y + h * 0.45}`}
+            fill="#7c2d12"
+            opacity={0.5}
+          />
+        </>
+      );
+
+    default:
+      return (
+        <>
+          <rect x={x} y={y} width={w} height={h} rx={2} fill="#e8d5c4" />
+        </>
+      );
+  }
+}
+
 export function TemplatePreview({ config, className = "" }: TemplatePreviewProps) {
   const { monthLayout, colors, typography } = config;
   const isLandscape = config.orientation === "landscape";
@@ -58,11 +217,9 @@ export function TemplatePreview({ config, className = "" }: TemplatePreviewProps
   const titleW = (title.width / 100) * viewW;
   const titleH = (title.height / 100) * viewH;
 
-  // Detect if background is dark
-  const isDark = isDarkColor(colors.background);
-  const photoGradient = isDark
-    ? ["#374151", "#1f2937", "#4b5563"]
-    : ["#e8d5c4", "#c9a88c", "#dbc1ab"];
+  // Photo scene
+  const sceneIndex = getPhotoScene(colors.background);
+  const gradientId = `scene-${config.orientation}-${colors.background.replace("#", "")}`;
 
   return (
     <svg
@@ -74,28 +231,8 @@ export function TemplatePreview({ config, className = "" }: TemplatePreviewProps
       {/* Background */}
       <rect width={viewW} height={viewH} fill={colors.background} rx={3} />
 
-      {/* Photo placeholder area */}
-      <defs>
-        <linearGradient id={`photo-${config.orientation}-${colors.background.replace("#", "")}`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor={photoGradient[0]} />
-          <stop offset="50%" stopColor={photoGradient[1]} />
-          <stop offset="100%" stopColor={photoGradient[2]} />
-        </linearGradient>
-      </defs>
-      <rect
-        x={imgX}
-        y={imgY}
-        width={imgW}
-        height={imgH}
-        rx={2}
-        fill={`url(#photo-${config.orientation}-${colors.background.replace("#", "")})`}
-      />
-      {/* Photo icon */}
-      <g transform={`translate(${imgX + imgW / 2 - 8}, ${imgY + imgH / 2 - 6})`} opacity={0.35}>
-        <rect x="0" y="2" width="16" height="10" rx="1.5" fill="none" stroke={isDark ? "#9ca3af" : "#78716c"} strokeWidth="0.8" />
-        <circle cx="5" cy="6" r="1.5" fill="none" stroke={isDark ? "#9ca3af" : "#78716c"} strokeWidth="0.6" />
-        <polyline points="2,11 6,7 9,10 11,8 14,11" fill="none" stroke={isDark ? "#9ca3af" : "#78716c"} strokeWidth="0.6" />
-      </g>
+      {/* Photo scene area */}
+      {renderPhotoScene(sceneIndex, imgX, imgY, imgW, imgH, gradientId)}
 
       {/* Month title */}
       <text
@@ -205,13 +342,4 @@ function mapFont(font: string): string {
   if (font.includes("Comic")) return "Comic Sans MS, cursive";
   if (font.includes("Impact")) return "Impact, sans-serif";
   return "Helvetica, Arial, sans-serif";
-}
-
-function isDarkColor(hex: string): boolean {
-  const c = hex.replace("#", "");
-  if (c.length < 6) return false;
-  const r = parseInt(c.slice(0, 2), 16);
-  const g = parseInt(c.slice(2, 4), 16);
-  const b = parseInt(c.slice(4, 6), 16);
-  return (r * 299 + g * 587 + b * 114) / 1000 < 128;
 }
