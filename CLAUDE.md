@@ -1,6 +1,6 @@
 # Platform Blueprint
 
-> Distilled from SetFlow. Same stack, domain-agnostic, sequential build for a single agent.
+> Reusable stack, architecture, and quality standards across all projects. Domain-agnostic.
 
 ## Stack
 
@@ -32,6 +32,105 @@ tests/                — unit/ (mirror lib/), integration/ (mirror api/), mocks
 scripts/              — DB init, reset, clean, migrations, verify-test-user
 ```
 
+---
+
+## Visual Design Standards
+
+### Typography
+- Use Google Fonts via `next/font/google`. Pair a display/serif font (headings) with a clean sans-serif (body).
+- Set CSS variables: `--font-heading`, `--font-body` in layout.tsx, reference via `@theme inline` in globals.css.
+- Apply heading font with `font-[family-name:var(--font-heading)]`.
+- Never use developer-oriented fonts (Geist, Inter, Roboto) for consumer products.
+
+### Color Palette
+- Define warm, non-corporate palettes. Use Tailwind's named scales (stone, rose, amber, emerald, etc.).
+- Set `:root` vars for `--background` and `--foreground` in globals.css.
+- Never use pure black (`text-black`, `bg-black`) — use `stone-800` or `stone-900`.
+- Choose a primary accent (e.g., rose-500), warm highlights (e.g., amber-50/100), and semantic colors (emerald=success, amber=warning, red=danger).
+- Backgrounds: warm off-whites (stone-50), cards on white, sections on subtle gradients.
+
+### Component Patterns
+- **Buttons**: `rounded-full` pill shape. Primary: `bg-{accent}-500 hover:bg-{accent}-600 text-white`. Secondary: `border border-stone-200 text-stone-600 hover:bg-stone-50`.
+- **Cards**: `rounded-2xl shadow-sm hover:shadow-md bg-white`. No hard borders — use shadow for depth.
+- **Focus rings**: `focus:ring-2 focus:ring-{accent}-300 focus:ring-offset-2`.
+- **Inputs**: `rounded-lg border border-stone-200 focus:border-{accent}-300 focus:ring-{accent}-300`.
+
+### CSS Animations (globals.css)
+Include these utilities in every project:
+- `@keyframes fadeIn`, `fadeInScale`, `slideUp` with corresponding `.animate-*` classes.
+- Stagger delays: `.delay-75` through `.delay-375` (75ms increments).
+- `.hover-lift` for card hover (-2px translateY).
+- Global smooth transition on `a, button, input, select, textarea`.
+
+---
+
+## Landing Page Completeness Checklist
+
+Every public-facing homepage must include these sections. Reference: amberline.app, setflow.app.
+
+### Required Sections
+1. **Sticky header** — Logo (serif font), anchor nav (Features, Pricing, Templates/equivalent), social icons (relevant to audience), Sign In (secondary) + Get Started (primary) CTAs. Use `sticky top-0 z-50 bg-white/80 backdrop-blur-md`.
+2. **Hero** — Gradient background, pill badge, serif heading with gradient accent text, description, dual CTAs, social proof (avatar row + "Trusted by..." text), "No credit card required" note.
+3. **Product showcase** — Template gallery, screenshot carousel, or interactive demo. Show the actual product.
+4. **How it works** — 3-4 numbered steps with icons.
+5. **Features grid** — 2x3 or 3x2 grid of feature cards with icon circles, titles, descriptions.
+6. **Pricing** — Inline on homepage (not separate page only). Free trial + paid tiers in columns. Include print/physical pricing if applicable. "Most Popular" badge on recommended tier.
+7. **FAQ accordion** — 4-6 questions using `<details>/<summary>` with rounded borders and chevron rotation.
+8. **Final CTA** — Dark warm background (stone-800), heading, subtitle, primary CTA, trust signals.
+9. **Multi-column footer** — Brand + description, Product links, Legal links, Social icons. Gradient top border.
+
+### Common Mistakes to Avoid
+- No "Get Started" CTA in header (only Sign In)
+- Pricing on separate page with no preview on homepage
+- No social icons anywhere
+- Minimal footer with no structure
+- No FAQ section
+- No social proof / testimonials
+- Missing anchor nav for single-page scroll
+
+---
+
+## Usability Standards
+
+### Navigation
+- **Active states**: Highlight current page link in accent color (e.g., rose-600). Use `usePathname()` in client layout. Both desktop and mobile nav.
+- **Breadcrumbs**: Required on all nested pages (editor, order flow, detail views). Format: `Dashboard / Page Name` with links. Style: `text-sm text-stone-400`, current page in `text-stone-600`.
+- **Shared layouts**: Marketing pages MUST have a shared `(marketing)/layout.tsx` with header + footer. Never duplicate header/footer in individual page components.
+
+### Empty States
+- Never show just "No items yet" — always include:
+  1. An inline SVG illustration (warm palette, simple shapes)
+  2. A warm heading and supportive subtitle
+  3. A CTA button guiding the next action
+  4. Optional: feature hints or benefits
+
+### Multi-Step Flows (Wizards)
+- **Step indicators**: Numbered circles with labels underneath. Active: accent color. Completed: accent. Upcoming: stone-200.
+- **Step connectors**: Lines between dots that fill with accent color as steps complete.
+- **Back navigation**: Every step (except the first) must have a back button.
+- **Progress context**: Show what was selected in previous steps (e.g., template preview in config step).
+
+### Forms & Feedback
+- **Save confirmation**: Show inline success toast (green, auto-dismiss 3s) after saves. Show error toast (red, 5s) on failure.
+- **Submit states**: Disable button + show spinner text ("Saving...", "Creating...") during submission.
+- **Destructive actions**: Require typed confirmation. Don't pre-fill the confirmation input.
+
+### Dashboard
+- **Greeting**: Time-of-day greeting with user's first name ("Good morning, Sarah").
+- **Card information density**: Status badges, relative timestamps ("Edited 2 days ago"), metadata (year, size, template).
+- **Contextual subtitles**: "3 calendars in progress" not just "3 calendars".
+
+---
+
+## Common Bugs to Watch
+
+- **PostgreSQL COUNT returns strings**: Drizzle/pg may return COUNT values as strings. Always wrap in `Number()` before arithmetic to avoid string concatenation (`"1" + "0" = "10"` instead of `1`).
+- **Next.js 16 dynamic params are Promises**: `const { id } = await params`.
+- **Route group layouts**: `(marketing)/layout.tsx` must exist for shared header/footer across marketing pages.
+- **Static page caching**: Landing page changes may require cache-busting on deploy. Coolify redeploys rebuild but the old container may serve stale static pages briefly.
+
+---
+
 ## Build Phases
 
 ### Phase 1: Scaffold
@@ -61,97 +160,52 @@ Centralize: tier names, trial duration, pagination defaults/max, batch sizes, sy
 ### Phase 9: API Route Pattern
 Every route: auth check (401) → rate limit (429) → validate input (400) → tier check if needed (403) → Drizzle query → respond. Next.js 16 dynamic params are Promises: `const { id } = await params`. Paginated GETs: `?limit=50&offset=0` with max caps, `?all=true` capped at 10k.
 
-### Phase 10: API Routes to Build
-
-**Auth/Account:** `/api/auth/[...all]` (BetterAuth), `/api/profile` GET/PATCH (safe fields only), `/api/account` DELETE (email confirm + password re-auth, cancel Stripe, hash email), `/api/account/providers` GET.
-
-**Domain Entities:** `/api/[entities]` GET (paginated) / POST (single or bulk, tier check) / DELETE (bulk by IDs), `/api/[entities]/all` DELETE, `/api/[entities]/[id]` PATCH/DELETE (IDOR), `/api/[entities]/bulk` PATCH (IDOR).
-
-**Generated Outputs:** `/api/[outputs]` GET (paginated) / POST (tier enforcement, increment counters), `/api/[outputs]/[id]` PATCH/DELETE (IDOR, supports upsert), `/api/[outputs]/[id]/share` POST/DELETE (create/revoke share link), `/api/[outputs]/public/[shareId]` GET (no auth, sanitized response).
-
-**Organization Units:** `/api/[org-units]` GET/POST (tier limit on count, smart type requires Pro), `/api/[org-units]/[id]` GET/PATCH/DELETE (IDOR, cascade), `/api/[org-units]/[id]/items` GET/POST/DELETE/PATCH (manage items, PATCH=reorder).
-
-**Calendar Events:** `/api/[events]` GET/POST (free tier blocked), `/api/[events]/[id]` GET/PATCH/DELETE (IDOR, free blocked), `/api/[events]/[id]/[link]` PATCH (link/unlink output).
-
-**Feedback:** `/api/feedback` GET (supports `?my`, `?board`, `?admin`) / POST, `/api/feedback/[id]` GET/PATCH/DELETE (PATCH/DELETE admin-only, soft delete), `/api/feedback/vote` POST/DELETE (409 on duplicate).
-
-**Stripe:** `/api/stripe/checkout` POST (create session or upgrade in-place), `/api/stripe/success` GET (validate + create subscription + update tier), `/api/stripe/resume` POST, `/api/stripe/portal` POST, `/api/stripe/verify-session` POST, `/api/stripe/webhook` POST (signature verified, idempotent via webhook_events, handle subscription.updated/deleted + charge.failed/succeeded), `/api/stripe/sync` POST.
-
-**Email:** `/api/email/welcome` POST, `/api/email/trial-reminders` POST (cron: day-3, day-6, expired; check unsubscribed + tracking timestamps; budget cap 25/run; 750ms delay between sends), `/api/email/unsubscribe` GET (signed token, returns HTML).
-
-**Admin:** `/api/admin/metrics` GET, `/api/admin/metrics/content` GET, `/api/admin/metrics/engagement` GET, `/api/admin/metrics/revenue` GET. Admin check: `ADMIN_EMAILS` env var, empty = deny all.
-
-**Misc:** `/api/health` GET (no auth, DB check), `/api/contact` POST (no auth, rate limit by IP), `/api/exit-survey` POST, `/api/ai/usage` GET.
+### Phase 10: API Routes
+Standard routes per project: auth, profile, account, domain entities (CRUD + bulk + IDOR), generated outputs (with share links), organization units (with cascade delete), feedback (with voting), Stripe (checkout, webhook, portal, sync), email (welcome, trial reminders, unsubscribe), admin metrics, health check, contact form.
 
 ### Phase 11: Zustand Store (`src/stores/app-store.ts`)
-Single store. Persist only small data (builderConfig, user) — never persist entity arrays. State sections: user, entities[], outputs[] + currentOutput, orgUnits[] + activeId, events[], builderConfig, isGenerating, lastSyncedAt, syncInProgress. Each entity type gets: local CRUD methods + database sync methods (addToDatabase, updateToDatabase, deleteFromDatabase). `syncFromDatabase(userId)`: paginated fetch (500/batch for entities, 100/batch for outputs), merge DB data with local (keep unpersisted local items), set lastSyncedAt. Optimistic mutations: update local state immediately, API call in background, replace temp ID with real on success. Memoized stats: hash-based cache, recompute only when data changes. `clearStore()` on logout.
+Single store. Persist only small data (builderConfig, user) — never persist entity arrays. Each entity type gets: local CRUD methods + database sync methods. `syncFromDatabase(userId)`: paginated fetch, merge DB data with local (keep unpersisted local items). Optimistic mutations: update local state immediately, API call in background. Memoized stats: hash-based cache. `clearStore()` on logout.
 
 ### Phase 12: Stripe Integration
-Config: `src/lib/stripe/config.ts` with PRICE_IDS per tier/interval. Checkout flow: POST checkout → create customer if needed → create session → redirect to Stripe → success redirect with session_id → verify-session → update profile → refreshProfile. Webhook: verify signature → check idempotency table → handle event → update profile → insert event ID. Upgrade in-place: `stripe.subscriptions.update()` with proration. Portal: `stripe.billingPortal.sessions.create()` with return URL. Env separation: TEST keys for dev/staging, LIVE for prod.
+Config with PRICE_IDS per tier/interval. Checkout flow → success redirect → verify-session → update profile. Webhook: verify signature → check idempotency → handle event → update profile. Env separation: TEST keys for dev/staging, LIVE for prod.
 
 ### Phase 13: Email System
-Resend for sending. Base HTML template (600px max, responsive). Templates: verification, password reset, welcome, trial day-3 reminder, trial day-6 expiring, trial expired, win-back. Unsubscribe: signed token → GET endpoint → set emailUnsubscribed=true → HTML confirmation. Cron pattern: query eligible profiles → filter unsubscribed → filter already-sent (tracking timestamps) → send with delay → update timestamps → budget cap.
+Resend for sending. Templates: verification, password reset, welcome, trial reminders, win-back. Unsubscribe: signed token → HTML confirmation. Cron pattern with budget caps and delay between sends.
 
 ### Phase 14: Pages & Layouts
-Root layout: AuthProvider + PostHogProvider. App layout: auth gate (redirect if not logged in), Header + ErrorBoundary + StripeProvider. Pages: `/` (marketing), `/app` (main tool), `/app/library` (content mgmt), `/app/[builder]` (manual creation), `/app/[calendar]` (scheduling), `/app/history` (saved outputs), `/app/settings` (account), `/app/admin/metrics` + `/app/admin/feedback` (admin), `/s/[shareId]` (public share), `/blog`, `/changelog`, `/help`, `/terms`, `/privacy`, `/reset-password`.
+Root layout: AuthProvider + PostHogProvider. Marketing layout: shared header/footer with active nav states. App layout: auth gate, sticky header with active nav, tier badge, mobile bottom nav. Pages: `/` (homepage), `/app` (dashboard), `/app/[domain-pages]`, `/app/settings`, `/app/admin/*`, `/s/[shareId]` (public share), legal pages.
 
 ### Phase 15: Navigation
-Desktop: sticky top header — logo, 5 nav links (Create/Library/Builder/Calendar/History), content count, tier badge, user menu dropdown. Mobile: minimal top bar (logo + user), fixed bottom nav (5 icons with labels), `pb-[env(safe-area-inset-bottom)]`.
+Desktop: sticky top header — logo, nav links with active states (accent color), tier badge, user menu. Mobile: minimal top bar, fixed bottom nav with active states, `pb-[env(safe-area-inset-bottom)]`.
 
 ### Phase 16: Tier UI Components
-`TrialCountdownBanner` (days remaining, usage progress, upgrade CTA), `ExpiredTrialOverlay` (full-screen blocker, must upgrade), `TierBadge` (colored badge, click to upgrade), `UpgradeModal` (comparison table, pricing toggle, Stripe checkout), `useTierLimits` hook (canGenerate, canExport, isTrialExpired, tier).
+`TrialCountdownBanner`, `ExpiredTrialOverlay`, `TierBadge` (amber/rose/violet/stone per tier), `UpgradeModal`.
 
-### Phase 17: Page Layout Patterns
-Main tool: 2/5 config + 3/5 output (mobile: stacked). Onboarding: 3-step progress if library empty (Import → Generate → Export). Library: sidebar org-units + table with sort/filter/bulk/search/pagination. Builder: tabs (My Items + Builder with browser|builder panels). Calendar: list/calendar toggle, cards with edit/delete/complete/link. History: search + filter pills + expandable cards + pagination. Settings: stacked sections (profile, plan, security, accounts, links, danger zone).
-
-### Phase 18: Interaction Patterns
-Modals: lazy-loaded heavy ones, useState trigger, close on cancel/backdrop/success. Delete: confirmation dialog with typed confirmation for destructive ops. Toasts: success (green 3s), error (red 5s), info (blue 3s). Forms: disable + spinner on submit, toast result, keep open on error. Search: controlled input, debounced, useMemo filtered results, client-side. Drag-drop: @dnd-kit for reordering. Pagination: client-side slice with page/perPage state.
-
-### Phase 19: Mobile Patterns
-<md = mobile, md+ = desktop. Mobile swaps: top nav → bottom nav, columns → stacked, sidebar → drawer/button, centered modals → full-width slide-up, side-by-side → tab switching, full calendar → compact picker, inline filters → horizontal scroll.
+### Phase 17-19: Page Patterns
+See Usability Standards section above for layout patterns, interaction patterns, and mobile patterns.
 
 ### Phase 20: Testing
-Unit: mirror src/lib/, test edge cases + boundaries, 80%+ coverage on business logic. Integration: mirror src/app/api/, use mock handlers. Mock infra: mockState object (session, profile, rateLimitAllowed), resetMockState in beforeEach. Required tests per route: 401 (unauth), 400 (validation), 403 (IDOR), 403 (tier), 429 (rate limit), 200 (success). Use `vi.hoisted()` for mock state, `Promise.resolve()` for Next.js 16 params.
+Unit: mirror src/lib/, 80%+ coverage on business logic. Integration: mirror src/app/api/. Required tests per route: 401, 400, 403 (IDOR), 403 (tier), 429, 200. Use `vi.hoisted()` for mock state.
 
 ### Phase 21: Scripts
-`init-db.js` (prod, idempotent), `setup-db.js` (dev, drizzle-kit), `reset-db.js` (destructive, --force), `clean-db.js` (selective, --tracks/--outputs/--all), `verify-test-user.js` (bypass email verification), `db-storage.js` (analysis). Migration scripts per feature, all idempotent.
+`init-db.js` (prod, idempotent), `setup-db.js` (dev), `reset-db.js` (destructive), `clean-db.js` (selective), `verify-test-user.js`, seed scripts per domain. All idempotent.
 
 ### Phase 22: Deployment (Coolify on Hetzner)
-
-#### Environments
-3 environments: feature (feature/*), staging (develop, dev.app.com), production (main, app.com). Each needs unique: DATABASE_URL, BETTER_AUTH_SECRET, Stripe keys (TEST vs LIVE).
-
-#### Coolify Resource Setup (per environment)
-
-**1. Database** — Standalone PostgreSQL 17:
-- Name: `{app}-{env}-db` (e.g. `myapp-dev-db`)
-- Server: localhost (Coolify host)
-- Public: No (internal network only)
-- Image: `postgres:17`
-
-**2. Application** — GitHub source via private GitHub App:
-- Build pack: `nixpacks`
-- Port: `3000`
-- FQDN: `https://www.{domain},https://{domain}` (prod) or `https://dev.{domain}` (staging)
-- Health check: enabled, `GET /api/health`, interval 30s, retries 3, return code 200, start period 30s, timeout 10s
-- Git branch: `main` (prod), `develop` (staging), `feature/*` (feature)
-- Auto-deploy on push
-
-**3. Environment Variables** — Bulk set via Coolify:
-- `DATABASE_URL` from internal DB connection string
-- `BETTER_AUTH_SECRET` (unique per env, generated)
-- `BETTER_AUTH_URL` / `NEXT_PUBLIC_APP_URL` / `TRUSTED_ORIGINS` (matching FQDN)
-- Stripe: TEST keys for dev/staging, LIVE for prod
-- All other env vars per Env Vars section
-
-**4. DNS** — A records pointing domain to Hetzner VPS IP. Coolify/Traefik handles HTTPS via Let's Encrypt.
-
-**5. Post-deploy** — Schema changes: run migration via Coolify Execute Command. After develop→main merge: `git checkout develop && git reset --hard origin/main && git push origin develop --force`.
+3 environments: feature (feature/*), staging (develop), production (main). Coolify resources: PostgreSQL 17 (internal), nixpacks app, health check on `/api/health`. Auto-deploy on push. DNS: A records to Hetzner VPS, Traefik handles HTTPS via Let's Encrypt.
 
 ## Env Vars
 
-DATABASE_URL, BETTER_AUTH_SECRET, BETTER_AUTH_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, NEXT_PUBLIC_STRIPE_PRICE_{HOBBY,PRO}_{MONTHLY,ANNUAL}, RESEND_API_KEY, EMAIL_FROM, ADMIN_EMAILS (empty=deny all), NEXT_PUBLIC_POSTHOG_KEY, NEXT_PUBLIC_POSTHOG_HOST, NEXT_PUBLIC_APP_URL, TRUSTED_ORIGINS, R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, R2_PUBLIC_URL, PRODIGI_API_KEY, PRODIGI_SANDBOX_API_KEY, PRODIGI_WEBHOOK_SECRET, PRODIGI_API_URL, USE_SANDBOX_PRINT.
+DATABASE_URL, BETTER_AUTH_SECRET, BETTER_AUTH_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, NEXT_PUBLIC_STRIPE_PRICE_{HOBBY,PRO}_{MONTHLY,ANNUAL}, RESEND_API_KEY, EMAIL_FROM, ADMIN_EMAILS (empty=deny all), NEXT_PUBLIC_POSTHOG_KEY, NEXT_PUBLIC_POSTHOG_HOST, NEXT_PUBLIC_APP_URL, TRUSTED_ORIGINS.
 
 ## Security Checklist
 
 IDOR on all user resources, rate limiting on all endpoints, server-side tier enforcement, generic client errors, Zod validation on all inputs, Stripe webhook signature verification, webhook idempotency, XXE prevention on file parsing, file upload limits, XSS sanitization, email unsubscribe compliance, deleted email hashing, admin gated by env var.
+
+## Quality Testing Workflow
+
+1. `npm run build` — must pass with zero errors before any deploy
+2. Visual E2E via Chrome DevTools MCP — screenshot every page after deploy
+3. Check for stale color references (grep for `gray-`, `blue-`, `text-black`, old font names)
+4. Verify console errors on every page
+5. Test empty states, active nav states, and responsive layouts
+6. Verify API responses (string vs number types from PostgreSQL)
