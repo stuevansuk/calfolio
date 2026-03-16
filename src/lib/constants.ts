@@ -26,7 +26,7 @@ export const IMAGE_CONSTRAINTS = {
   maxDimensionPx: 4096,
   compressionQuality: 0.85,
   presignExpirySeconds: 900, // 15 min
-  r2ExpiryHours: 48,
+  orphanExpiryHours: 48, // cleanup marker for uploads never assigned to a page
   printPdfExpiryDays: 30,
 } as const;
 

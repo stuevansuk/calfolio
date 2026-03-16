@@ -399,6 +399,21 @@ export async function deleteImageUpload(r2Key: string, userId: string) {
   return deleted ?? null;
 }
 
+export async function markImageAssigned(r2Key: string, userId: string) {
+  const [updated] = await db
+    .update(imageUploads)
+    .set({ expiresAt: null })
+    .where(
+      and(
+        eq(imageUploads.r2Key, r2Key),
+        eq(imageUploads.userId, userId),
+        eq(imageUploads.isActive, true)
+      )
+    )
+    .returning();
+  return updated ?? null;
+}
+
 // ============================================================================
 // Webhook Events (idempotency)
 // ============================================================================

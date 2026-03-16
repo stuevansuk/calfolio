@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth/session";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { deleteImageUpload } from "@/lib/db/api";
-import { deleteR2Object } from "@/lib/r2/client";
+import { deleteImage } from "@/lib/storage";
 
 export async function DELETE(
   _request: Request,
@@ -36,11 +36,11 @@ export async function DELETE(
     );
   }
 
-  // Best-effort delete from R2
+  // Best-effort delete from storage
   try {
-    await deleteR2Object(decodedKey);
+    await deleteImage(decodedKey);
   } catch (err) {
-    console.error("Failed to delete from R2:", err);
+    console.error("Failed to delete image from storage:", err);
   }
 
   return NextResponse.json({ success: true });

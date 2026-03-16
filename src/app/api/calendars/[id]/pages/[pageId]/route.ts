@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth/session";
 import { checkRateLimit } from "@/lib/rate-limit";
-import { updateCalendarPage, fetchCalendarProject } from "@/lib/db/api";
+import { updateCalendarPage, fetchCalendarProject, markImageAssigned } from "@/lib/db/api";
 import { z } from "zod/v4";
 
 const patchSchema = z.object({
@@ -61,6 +61,11 @@ export async function PATCH(
       { success: false, error: "Not found" },
       { status: 404 }
     );
+  }
+
+  // Mark image as assigned (clears orphan expiry) so it persists forever
+  if (parsed.data.imageKey) {
+    await markImageAssigned(parsed.data.imageKey, session.user.id);
   }
 
   return NextResponse.json({ success: true, data: updated });

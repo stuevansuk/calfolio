@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSession } from "@/lib/auth/session";
 import { checkRateLimit } from "@/lib/rate-limit";
 import {
@@ -11,20 +10,8 @@ import {
 } from "@/lib/db/api";
 import { canPerformAction, shouldResetMonthlyCounters, getNextMonthlyReset } from "@/lib/tier-check";
 import { generatePrintPdf } from "@/lib/pdf/print-generator";
-import { generatePrintPdfKey } from "@/lib/r2/client";
+import { uploadImage, generatePrintPdfKey, getImageUrl } from "@/lib/storage";
 import type { UserProfile, TemplateConfig, CalendarProject, CalendarPage } from "@/types";
-
-const s3 = new S3Client({
-  region: "auto",
-  endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
-  credentials: {
-    accessKeyId: process.env.R2_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY!,
-  },
-});
-
-const BUCKET = process.env.R2_BUCKET_NAME!;
-const PUBLIC_URL = process.env.R2_PUBLIC_URL!;
 
 export async function POST(
   _request: Request,
@@ -120,26 +107,19 @@ export async function POST(
     );
   }
 
-  // Upload to R2
-  const r2Key = generatePrintPdfKey(id);
+  // Upload to storage
+  const pdfKey = generatePrintPdfKey(id);
   try {
-    await s3.send(
-      new PutObjectCommand({
-        Bucket: BUCKET,
-        Key: r2Key,
-        Body: pdfBuffer,
-        ContentType: "application/pdf",
-      })
-    );
+    await uploadImage(pdfBuffer, pdfKey, "application/pdf");
   } catch (err) {
-    console.error("R2 upload failed:", err);
+    console.error("PDF storage upload failed:", err);
     return NextResponse.json(
       { success: false, error: "Failed to store PDF" },
       { status: 500 }
     );
   }
 
-  const pdfUrl = `${PUBLIC_URL}/${r2Key}`;
+  const pdfUrl = getImageUrl(pdfKey);
 
   // Increment export counters
   await updateProfileAdmin(session.user.id, {
