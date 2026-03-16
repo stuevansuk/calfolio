@@ -63,16 +63,22 @@ export default function CreateCalendarPage() {
     <div className="mx-auto max-w-4xl">
       {/* Progress */}
       <div className="mb-8 flex items-center gap-4">
-        <div
-          className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${step >= 1 ? "bg-rose-500 text-white" : "bg-stone-200 text-stone-500"}`}
-        >
-          1
+        <div className="flex flex-col items-center">
+          <div
+            className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-all duration-200 ${step >= 1 ? "bg-rose-500 text-white" : "bg-stone-200 text-stone-500"}`}
+          >
+            1
+          </div>
+          <span className={`mt-1 text-xs ${step >= 1 ? "text-rose-600" : "text-stone-500"}`}>Choose Template</span>
         </div>
-        <div className="h-px flex-1 bg-stone-200" />
-        <div
-          className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${step >= 2 ? "bg-rose-500 text-white" : "bg-stone-200 text-stone-500"}`}
-        >
-          2
+        <div className={`h-0.5 flex-1 transition-all duration-200 ${step > 1 ? "bg-rose-500" : "bg-stone-200"}`} />
+        <div className="flex flex-col items-center">
+          <div
+            className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-all duration-200 ${step >= 2 ? "bg-rose-500 text-white" : "bg-stone-200 text-stone-500"}`}
+          >
+            2
+          </div>
+          <span className={`mt-1 text-xs ${step >= 2 ? "text-rose-600" : "text-stone-500"}`}>Configure</span>
         </div>
       </div>
 
@@ -140,11 +146,32 @@ export default function CreateCalendarPage() {
         <div>
           <button
             onClick={() => setStep(1)}
-            className="mb-4 text-sm text-stone-500 hover:text-rose-600"
+            className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-stone-200 px-3 py-1.5 text-sm text-stone-600 hover:bg-stone-50 transition-all duration-200"
           >
-            &larr; Back to templates
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+            </svg>
+            Back to templates
           </button>
           <h1 className="mb-6 text-2xl font-bold text-stone-800 font-[family-name:var(--font-heading)]">Configure Your Calendar</h1>
+
+          {/* Selected template preview */}
+          {(() => {
+            const selectedTpl = templates.find((t) => t.id === selectedTemplate);
+            if (!selectedTpl) return null;
+            const previewConfig = selectedTpl.config as TemplateConfig;
+            return (
+              <div className="mb-6 flex items-center gap-4 rounded-xl border border-stone-100 bg-white p-3 shadow-sm">
+                <div className="w-[120px] shrink-0 overflow-hidden rounded-lg border border-stone-100">
+                  <TemplatePreview config={previewConfig} className="w-full" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-stone-800">{selectedTpl.name}</h3>
+                  <p className="mt-0.5 text-xs text-stone-500">{selectedTpl.description}</p>
+                </div>
+              </div>
+            );
+          })()}
 
           <div className="max-w-md space-y-4">
             <div>

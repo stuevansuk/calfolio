@@ -76,20 +76,40 @@ export default function OrderPage() {
     }
   }
 
+  const STEP_LABELS = ["Options", "Address", "Review"];
+
   return (
     <div className="mx-auto max-w-lg">
+      {/* Breadcrumb */}
+      <nav className="mb-4 flex items-center gap-1.5 text-sm">
+        <a href="/app" className="text-stone-400 hover:text-rose-500 transition-all duration-200">
+          Dashboard
+        </a>
+        <span className="text-rose-300">/</span>
+        <span className="text-stone-600">Order Print</span>
+      </nav>
+
       <h1 className="mb-6 text-2xl font-bold text-stone-800 font-[family-name:var(--font-heading)]">Order Printed Calendar</h1>
 
       {/* Step indicators */}
-      <div className="mb-8 flex items-center gap-3">
-        {[1, 2, 3].map((s) => (
-          <div
-            key={s}
-            className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${
-              step >= s ? "bg-rose-500 text-white" : "bg-stone-200 text-stone-500"
-            }`}
-          >
-            {s}
+      <div className="mb-8 flex items-center">
+        {[1, 2, 3].map((s, i) => (
+          <div key={s} className="flex flex-1 items-center">
+            <div className="flex flex-col items-center">
+              <div
+                className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-all duration-200 ${
+                  step >= s ? "bg-rose-500 text-white" : "bg-stone-200 text-stone-500"
+                }`}
+              >
+                {s}
+              </div>
+              <span className={`mt-1 text-xs ${step >= s ? "text-rose-600" : "text-stone-400"}`}>
+                {STEP_LABELS[i]}
+              </span>
+            </div>
+            {i < 2 && (
+              <div className={`mx-2 h-0.5 flex-1 transition-all duration-200 ${step > s ? "bg-rose-500" : "bg-stone-200"}`} />
+            )}
           </div>
         ))}
       </div>
@@ -209,13 +229,21 @@ export default function OrderPage() {
               className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm focus:border-rose-300 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2 focus:outline-none"
             />
           </div>
-          <button
-            onClick={getQuote}
-            disabled={loading || !shippingName || !address.line1}
-            className="w-full rounded-full bg-rose-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-rose-600 disabled:opacity-50 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2"
-          >
-            {loading ? "Getting quote..." : "Get Price Quote"}
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setStep(1)}
+              className="text-sm text-stone-500 hover:text-rose-600 transition-all duration-200"
+            >
+              Back
+            </button>
+            <button
+              onClick={getQuote}
+              disabled={loading || !shippingName || !address.line1}
+              className="flex-1 rounded-full bg-rose-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-rose-600 disabled:opacity-50 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2 transition-all duration-200"
+            >
+              {loading ? "Getting quote..." : "Get Price Quote"}
+            </button>
+          </div>
         </div>
       )}
 
@@ -240,13 +268,36 @@ export default function OrderPage() {
               </div>
             </div>
           </div>
-          <button
-            onClick={placeOrder}
-            disabled={loading}
-            className="w-full rounded-full bg-rose-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-rose-600 disabled:opacity-50 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2"
-          >
-            {loading ? "Placing order..." : "Place Order & Pay"}
-          </button>
+
+          {/* Shipping address preview */}
+          <div className="rounded-2xl bg-white p-4 shadow-sm">
+            <h2 className="mb-2 font-medium text-stone-800">Ship To</h2>
+            <div className="text-sm text-stone-600">
+              <p className="font-medium">{shippingName}</p>
+              <p>{address.line1}</p>
+              {address.line2 && <p>{address.line2}</p>}
+              <p>
+                {address.city}{address.state ? `, ${address.state}` : ""} {address.postcode}
+              </p>
+              <p>{address.country}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setStep(2)}
+              className="text-sm text-stone-500 hover:text-rose-600 transition-all duration-200"
+            >
+              Back
+            </button>
+            <button
+              onClick={placeOrder}
+              disabled={loading}
+              className="flex-1 rounded-full bg-rose-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-rose-600 disabled:opacity-50 focus:ring-2 focus:ring-rose-300 focus:ring-offset-2 transition-all duration-200"
+            >
+              {loading ? "Placing order..." : "Place Order & Pay"}
+            </button>
+          </div>
         </div>
       )}
     </div>

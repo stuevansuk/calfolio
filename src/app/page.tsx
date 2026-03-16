@@ -4,7 +4,7 @@ export default function Home() {
       {/* Header */}
       <header className="border-b border-stone-100">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <span className="text-xl font-bold tracking-tight text-stone-800">
+          <span className="font-[family-name:var(--font-heading)] text-xl font-bold tracking-tight text-stone-800">
             Calfolio
           </span>
           <nav className="flex items-center gap-8">
@@ -34,7 +34,7 @@ export default function Home() {
       <section className="relative overflow-hidden bg-stone-50">
         <div className="absolute inset-0 bg-gradient-to-b from-rose-50 via-amber-50/50 to-stone-50" />
         <div className="relative mx-auto max-w-4xl px-6 pb-24 pt-28 text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-700">
+          <div className="animate-fade-in mb-6 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-700">
             <svg
               className="h-4 w-4"
               fill="none"
@@ -50,19 +50,19 @@ export default function Home() {
             </svg>
             13 beautiful templates to choose from
           </div>
-          <h1 className="font-[family-name:var(--font-heading)] text-5xl font-normal leading-[1.1] tracking-tight text-stone-800 sm:text-6xl">
+          <h1 className="animate-slide-up delay-75 font-[family-name:var(--font-heading)] text-5xl font-normal leading-[1.1] tracking-tight text-stone-800 sm:text-6xl">
             Beautiful photo calendars,
             <br />
             <span className="bg-gradient-to-r from-rose-500 to-orange-400 bg-clip-text text-transparent">
               made simple.
             </span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-stone-500">
+          <p className="animate-slide-up delay-150 mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-stone-500">
             Upload your favourite photos, pick a style, and create stunning
             personalised wall calendars. Download print-ready PDFs or order
             printed calendars delivered to your door.
           </p>
-          <div className="mt-10 flex items-center justify-center gap-4">
+          <div className="animate-slide-up delay-225 mt-10 flex items-center justify-center gap-4">
             <a
               href="/register"
               className="rounded-full bg-rose-500 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-rose-500/20 transition hover:bg-rose-600 hover:shadow-xl"
@@ -155,6 +155,9 @@ export default function Home() {
               },
             ].map((item) => (
               <div key={item.step} className="text-center">
+                <div className="mx-auto mb-3 flex h-6 w-6 items-center justify-center rounded-full bg-rose-100 text-xs font-semibold text-rose-600">
+                  {item.step}
+                </div>
                 <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-50 text-rose-500">
                   {item.icon}
                 </div>
@@ -174,20 +177,26 @@ export default function Home() {
       <section className="border-t border-stone-100 bg-white py-16">
         <div className="mx-auto grid max-w-4xl gap-8 px-6 text-center md:grid-cols-3">
           <div>
-            <div className="text-3xl font-bold text-stone-800">13</div>
-            <div className="mt-1 text-sm text-stone-500">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-rose-50">
+              <span className="text-3xl font-bold text-stone-800">13</span>
+            </div>
+            <div className="mt-3 text-sm text-stone-500">
               Designer templates
             </div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-stone-800">A4 &amp; A5</div>
-            <div className="mt-1 text-sm text-stone-500">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-rose-50">
+              <span className="text-lg font-bold text-stone-800">A4 &amp; A5</span>
+            </div>
+            <div className="mt-3 text-sm text-stone-500">
               Paper sizes supported
             </div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-stone-800">300 DPI</div>
-            <div className="mt-1 text-sm text-stone-500">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-rose-50">
+              <span className="text-lg font-bold text-stone-800">300 DPI</span>
+            </div>
+            <div className="mt-3 text-sm text-stone-500">
               Print-ready quality
             </div>
           </div>
@@ -214,8 +223,9 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-stone-100 bg-stone-50 py-10">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6">
+      <footer className="bg-stone-50 pt-0 pb-10">
+        <div className="h-px bg-gradient-to-r from-transparent via-rose-200 to-transparent" />
+        <div className="mx-auto mt-10 flex max-w-6xl items-center justify-between px-6">
           <div>
             <span className="font-semibold text-stone-800">Calfolio</span>
             <p className="mt-1 text-xs text-stone-400">
