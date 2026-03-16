@@ -24,7 +24,8 @@ export function TrialCountdownBanner() {
   const daysUsed = trialDays - daysRemaining;
   const progressPercent = Math.min(100, (daysUsed / trialDays) * 100);
 
-  const calendarsUsed = user.totalCalendarsCreated;
+  const projects = useAppStore((s) => s.projects);
+  const calendarsUsed = projects.length;
   const calendarsLimit = limits.activeCalendars;
   const exportsUsed = user.totalExportsUsed;
   const exportsLimit = limits.pdfExports;

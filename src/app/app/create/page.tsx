@@ -19,6 +19,7 @@ export default function CreateCalendarPage() {
   const [startMonth, setStartMonth] = useState(1);
   const [paperSize, setPaperSize] = useState<"A4" | "A5">("A4");
   const [creating, setCreating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (templates.length === 0) {
@@ -36,6 +37,7 @@ export default function CreateCalendarPage() {
       : templates.filter((t) => t.category === category);
 
   async function handleCreate() {
+    setError(null);
     setCreating(true);
     try {
       const res = await fetch("/api/calendars", {
@@ -50,10 +52,12 @@ export default function CreateCalendarPage() {
         }),
       });
       const data = await res.json();
-      if (data.success) {
-        addProject(data.data);
-        router.push(`/app/calendars/${data.data.id}/edit`);
+      if (!data.success) {
+        setError(data.error || "Failed to create calendar");
+        return;
       }
+      addProject(data.data);
+      router.push(`/app/calendars/${data.data.id}/edit`);
     } finally {
       setCreating(false);
     }
@@ -231,6 +235,11 @@ export default function CreateCalendarPage() {
                 ))}
               </div>
             </div>
+            {error && (
+              <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
             <button
               onClick={handleCreate}
               disabled={creating}
