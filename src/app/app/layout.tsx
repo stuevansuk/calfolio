@@ -2,7 +2,7 @@
 
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
 import { useAppStore } from "@/stores/app-store";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { TrialCountdownBanner } from "@/components/tier/TrialCountdownBanner";
 import { ExpiredTrialOverlay } from "@/components/tier/ExpiredTrialOverlay";
@@ -13,6 +13,7 @@ function AuthGate({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   const storeUser = useAppStore((s) => s.user);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -43,19 +44,37 @@ function AuthGate({ children }: { children: React.ReactNode }) {
             Calfolio
           </a>
           <nav className="hidden items-center gap-6 md:flex">
-            <a href="/app" className="text-sm text-stone-500 hover:text-stone-700">
-              Dashboard
-            </a>
-            <a href="/app/create" className="text-sm text-stone-500 hover:text-stone-700">
-              Create
-            </a>
-            <a href="/app/orders" className="text-sm text-stone-500 hover:text-stone-700">
-              Orders
-            </a>
-            <a href="/app/settings" className="text-sm text-stone-500 hover:text-stone-700">
-              Settings
-            </a>
-            <a href="/app/admin/metrics" className="text-sm text-stone-400 hover:text-stone-700">
+            {[
+              { href: "/app", label: "Dashboard", exact: true },
+              { href: "/app/create", label: "Create" },
+              { href: "/app/orders", label: "Orders" },
+              { href: "/app/settings", label: "Settings" },
+            ].map((link) => {
+              const isActive = link.exact
+                ? pathname === link.href
+                : pathname.startsWith(link.href);
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition ${
+                    isActive
+                      ? "text-rose-600"
+                      : "text-stone-500 hover:text-stone-700"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
+            <a
+              href="/app/admin/metrics"
+              className={`text-sm font-medium transition ${
+                pathname.startsWith("/app/admin")
+                  ? "text-rose-600"
+                  : "text-stone-400 hover:text-stone-700"
+              }`}
+            >
               Admin
             </a>
           </nav>
@@ -69,21 +88,29 @@ function AuthGate({ children }: { children: React.ReactNode }) {
       {/* Mobile bottom nav */}
       <nav className="fixed inset-x-0 bottom-0 border-t border-stone-100 bg-white pb-[env(safe-area-inset-bottom)] md:hidden">
         <div className="flex justify-around py-2">
-          <a href="/app" className="flex flex-col items-center text-xs text-stone-500 hover:text-rose-600">
-            Dashboard
-          </a>
-          <a href="/app/create" className="flex flex-col items-center text-xs text-stone-500 hover:text-rose-600">
-            Create
-          </a>
-          <a href="/app/orders" className="flex flex-col items-center text-xs text-stone-500 hover:text-rose-600">
-            Orders
-          </a>
-          <a
-            href="/app/settings"
-            className="flex flex-col items-center text-xs text-stone-500 hover:text-rose-600"
-          >
-            Settings
-          </a>
+          {[
+            { href: "/app", label: "Dashboard", exact: true },
+            { href: "/app/create", label: "Create" },
+            { href: "/app/orders", label: "Orders" },
+            { href: "/app/settings", label: "Settings" },
+          ].map((link) => {
+            const isActive = link.exact
+              ? pathname === link.href
+              : pathname.startsWith(link.href);
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`flex flex-col items-center text-xs font-medium ${
+                  isActive
+                    ? "text-rose-600"
+                    : "text-stone-500 hover:text-rose-600"
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </div>
       </nav>
       <ExpiredTrialOverlay />

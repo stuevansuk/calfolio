@@ -20,39 +20,7 @@ export default async function TemplatesPage() {
   const templates = await getTemplates();
 
   return (
-    <main className="min-h-screen bg-stone-50">
-      {/* Header */}
-      <header className="border-b border-stone-100 bg-white">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <a
-            href="/"
-            className="font-[family-name:var(--font-heading)] text-xl text-stone-800"
-          >
-            Calfolio
-          </a>
-          <nav className="flex items-center gap-8">
-            <a
-              href="/templates"
-              className="text-sm font-medium text-rose-600"
-            >
-              Templates
-            </a>
-            <a
-              href="/pricing"
-              className="text-sm font-medium text-stone-500 transition hover:text-stone-800"
-            >
-              Pricing
-            </a>
-            <a
-              href="/login"
-              className="rounded-full bg-rose-500 px-5 py-2 text-sm font-medium text-white transition hover:bg-rose-600"
-            >
-              Sign In
-            </a>
-          </nav>
-        </div>
-      </header>
-
+    <main>
       {/* Hero */}
       <section className="bg-gradient-to-b from-rose-50/50 to-stone-50 py-20 text-center">
         <div className="mx-auto max-w-3xl px-6">
@@ -149,23 +117,6 @@ export default async function TemplatesPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-stone-100 bg-stone-50 py-10">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6">
-          <div>
-            <span className="font-semibold text-stone-800">Calfolio</span>
-            <p className="mt-1 text-xs text-stone-400">
-              &copy; 2026 Calfolio. All rights reserved.
-            </p>
-          </div>
-          <div className="flex gap-6">
-            <a href="/pricing" className="text-sm text-stone-500 transition hover:text-stone-700">Pricing</a>
-            <a href="/templates" className="text-sm text-stone-500 transition hover:text-stone-700">Templates</a>
-            <a href="/terms" className="text-sm text-stone-500 transition hover:text-stone-700">Terms</a>
-            <a href="/privacy" className="text-sm text-stone-500 transition hover:text-stone-700">Privacy</a>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }

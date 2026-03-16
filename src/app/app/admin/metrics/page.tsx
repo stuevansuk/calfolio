@@ -157,9 +157,9 @@ export default function AdminMetricsPage() {
 
   const totalProjects =
     content
-      ? content.statusBreakdown.draft +
-        content.statusBreakdown.completed +
-        content.statusBreakdown.ordered
+      ? Number(content.statusBreakdown.draft) +
+        Number(content.statusBreakdown.completed) +
+        Number(content.statusBreakdown.ordered)
       : 0;
 
   const marginPercent =

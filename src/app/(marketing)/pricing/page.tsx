@@ -29,7 +29,7 @@ export default function PricingPage() {
   ];
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-20 bg-stone-50">
+    <main className="mx-auto max-w-5xl px-4 py-20">
       <div className="mb-12 text-center">
         <h1 className="font-[family-name:var(--font-heading)] text-4xl font-normal text-stone-800">
           Simple, transparent pricing
