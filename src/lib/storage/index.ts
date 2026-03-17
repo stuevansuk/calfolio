@@ -43,7 +43,7 @@ export function getImageUrl(key: string): string {
   if (process.env.STORAGE_PROVIDER === "r2") {
     return `${process.env.R2_PUBLIC_URL}/${key}`;
   }
-  return `/api/images/serve/${encodeURIComponent(key)}`;
+  return `/api/images/serve/${key.split("/").map(encodeURIComponent).join("/")}`;
 }
 
 export function generateStorageKey(

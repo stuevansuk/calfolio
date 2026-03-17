@@ -247,7 +247,7 @@ export const imageUploads = pgTable(
     width: integer("width"),
     height: integer("height"),
 
-    expiresAt: timestamp("expires_at"), // null = assigned to a page (persists forever)
+    expiresAt: timestamp("expires_at").notNull(),
     isActive: boolean("is_active").notNull().default(true),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },

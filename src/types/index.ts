@@ -242,7 +242,7 @@ export type ImageUpload = {
   sizeBytes: number | null;
   width: number | null;
   height: number | null;
-  expiresAt: Date | null; // null = assigned to a page (persists forever)
+  expiresAt: Date;
   isActive: boolean;
   createdAt: Date;
 };

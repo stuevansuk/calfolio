@@ -399,10 +399,14 @@ export async function deleteImageUpload(r2Key: string, userId: string) {
   return deleted ?? null;
 }
 
+// Set expiresAt to 100 years from now (effectively never expires)
+// Uses a far-future date instead of null to avoid needing a DB migration
+const NEVER_EXPIRES = () => new Date(Date.now() + 100 * 365.25 * 24 * 60 * 60 * 1000);
+
 export async function markImageAssigned(r2Key: string, userId: string) {
   const [updated] = await db
     .update(imageUploads)
-    .set({ expiresAt: null })
+    .set({ expiresAt: NEVER_EXPIRES() })
     .where(
       and(
         eq(imageUploads.r2Key, r2Key),

@@ -25,7 +25,7 @@ export class LocalStorageProvider implements StorageProvider {
     fs.writeFileSync(filePath + ".meta", contentType);
 
     return {
-      publicUrl: `/api/images/serve/${encodeURIComponent(key)}`,
+      publicUrl: `/api/images/serve/${key.split("/").map(encodeURIComponent).join("/")}`,
       storageKey: key,
     };
   }

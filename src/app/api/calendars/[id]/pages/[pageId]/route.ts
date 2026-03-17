@@ -65,7 +65,11 @@ export async function PATCH(
 
   // Mark image as assigned (clears orphan expiry) so it persists forever
   if (parsed.data.imageKey) {
-    await markImageAssigned(parsed.data.imageKey, session.user.id);
+    try {
+      await markImageAssigned(parsed.data.imageKey, session.user.id);
+    } catch (err) {
+      console.error("Failed to mark image assigned:", err);
+    }
   }
 
   return NextResponse.json({ success: true, data: updated });
