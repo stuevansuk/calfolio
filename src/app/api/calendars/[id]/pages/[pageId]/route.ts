@@ -6,7 +6,7 @@ import { z } from "zod/v4";
 
 const patchSchema = z.object({
   imageKey: z.string().max(500).nullable().optional(),
-  imageUrl: z.string().url().max(500).nullable().optional(),
+  imageUrl: z.string().max(500).nullable().optional(),
   imagePosition: z.record(z.string(), z.unknown()).nullable().optional(),
   imageCropData: z.record(z.string(), z.unknown()).nullable().optional(),
   overlayText: z.string().max(500).nullable().optional(),
