@@ -1,5 +1,7 @@
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import sharp from "sharp";
+import fs from "node:fs";
+import path from "node:path";
 import type { CalendarProject, CalendarPage, TemplateConfig } from "@/types";
 import {
   getPageDimensions,
@@ -12,11 +14,24 @@ import { drawCommandsToPdf, addCropMarks } from "@/lib/pdf/pdf-drawer";
 
 const PRINT_DPI = 300;
 const PRINT_BLEED_MM = 3;
+const UPLOADS_DIR = path.join(process.cwd(), "uploads");
+const LOCAL_SERVE_PREFIX = "/api/images/serve/";
 
 async function fetchImageBuffer(url: string): Promise<Buffer> {
+  // Local storage: read directly from disk instead of HTTP roundtrip
+  if (url.startsWith(LOCAL_SERVE_PREFIX)) {
+    const key = decodeURIComponent(url.slice(LOCAL_SERVE_PREFIX.length));
+    const filePath = path.resolve(UPLOADS_DIR, key);
+    if (!filePath.startsWith(UPLOADS_DIR)) {
+      throw new Error("Invalid image path");
+    }
+    return fs.readFileSync(filePath);
+  }
+
+  // Absolute URL: fetch via HTTP (R2 or external)
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`Failed to fetch image from URL: ${url}`);
+    throw new Error(`Failed to fetch image: ${url} (${response.status})`);
   }
   const arrayBuffer = await response.arrayBuffer();
   return Buffer.from(arrayBuffer);
