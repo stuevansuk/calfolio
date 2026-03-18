@@ -29,7 +29,7 @@ export function checkRateLimit(
   type: RateLimitType
 ): RateLimitResult {
   const config = RATE_LIMIT_CONFIGS[type];
-  return slidingWindowCheck(key, config);
+  return slidingWindowCheck(`${type}:${key}`, config);
 }
 
 function slidingWindowCheck(

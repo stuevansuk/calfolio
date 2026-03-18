@@ -83,16 +83,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           };
           setUser(u);
 
-          // Fetch profile
-          await refreshProfile();
-
-          // Sync if stale
+          // Sync from database (includes profile fetch)
           const now = Date.now();
           if (
             !lastSyncedAt ||
             now - lastSyncedAt > SYNC_STALE_THRESHOLD_MS
           ) {
-            syncFromDatabase(u.id);
+            await syncFromDatabase(u.id);
+          } else {
+            // Only fetch profile if sync is not needed
+            await refreshProfile();
           }
         }
       } catch {
