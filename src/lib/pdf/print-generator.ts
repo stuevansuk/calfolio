@@ -83,12 +83,18 @@ export async function generatePrintPdf(
     Courier: courier,
   };
 
+  // Layout calculations use pixel dimensions at 300 DPI
   const dims = getPageDimensions(
     project.paperSize,
     project.orientation,
     PRINT_DPI,
     PRINT_BLEED_MM
   );
+
+  // PDF pages use points (1 pt = 1/72 inch). Convert pixel coords to points.
+  const scale = 72 / PRINT_DPI;
+  const pageWidthPt = dims.width * scale;
+  const pageHeightPt = dims.height * scale;
 
   const bleedPx = Math.round((PRINT_BLEED_MM / 25.4) * PRINT_DPI);
 
@@ -101,7 +107,7 @@ export async function generatePrintPdf(
 
   // Generate cover page
   if (coverPage) {
-    const pdfPage = pdfDoc.addPage([dims.width, dims.height]);
+    const pdfPage = pdfDoc.addPage([pageWidthPt, pageHeightPt]);
     const coverCommands = generateCoverCommands(templateConfig, dims, {
       title: project.title,
       year: project.calendarYear,
@@ -110,18 +116,18 @@ export async function generatePrintPdf(
     });
 
     // Process and embed images at print quality
-    await embedPrintImages(pdfDoc, pdfPage, coverCommands, dims);
+    await embedPrintImages(pdfDoc, pdfPage, coverCommands, dims, scale);
 
     // Draw non-image commands
-    drawCommandsToPdf(pdfPage, coverCommands, dims, fonts);
+    drawCommandsToPdf(pdfPage, coverCommands, dims, fonts, scale);
 
     // Add crop marks
-    addCropMarks(pdfPage, dims, bleedPx);
+    addCropMarks(pdfPage, dims, bleedPx, scale);
   }
 
   // Generate month pages
   for (const monthPage of monthPages) {
-    const pdfPage = pdfDoc.addPage([dims.width, dims.height]);
+    const pdfPage = pdfDoc.addPage([pageWidthPt, pageHeightPt]);
 
     const gridData = generateMonthGrid(
       project.calendarYear,
@@ -143,13 +149,13 @@ export async function generatePrintPdf(
     });
 
     // Process and embed images at print quality
-    await embedPrintImages(pdfDoc, pdfPage, monthCommands, dims);
+    await embedPrintImages(pdfDoc, pdfPage, monthCommands, dims, scale);
 
     // Draw non-image commands
-    drawCommandsToPdf(pdfPage, monthCommands, dims, fonts);
+    drawCommandsToPdf(pdfPage, monthCommands, dims, fonts, scale);
 
     // Add crop marks
-    addCropMarks(pdfPage, dims, bleedPx);
+    addCropMarks(pdfPage, dims, bleedPx, scale);
   }
 
   const pdfBytes = await pdfDoc.save();
@@ -160,8 +166,11 @@ async function embedPrintImages(
   pdfDoc: PDFDocument,
   pdfPage: ReturnType<PDFDocument["addPage"]>,
   commands: DrawCommand[],
-  dims: { height: number }
+  dims: { height: number },
+  scale: number = 1
 ): Promise<void> {
+  const pageHeightPt = dims.height * scale;
+
   for (const cmd of commands) {
     if (cmd.type !== "image") continue;
 
@@ -173,24 +182,21 @@ async function embedPrintImages(
         cmd.height
       );
 
-      const embeddedImage =
-        processed.format === "png"
-          ? await pdfDoc.embedPng(processed.bytes)
-          : await pdfDoc.embedJpg(processed.bytes);
+      const embeddedImage = await pdfDoc.embedJpg(processed.bytes);
 
       pdfPage.drawImage(embeddedImage, {
-        x: cmd.x,
-        y: dims.height - cmd.y - cmd.height,
-        width: cmd.width,
-        height: cmd.height,
+        x: cmd.x * scale,
+        y: pageHeightPt - (cmd.y + cmd.height) * scale,
+        width: cmd.width * scale,
+        height: cmd.height * scale,
       });
     } catch {
       // If image processing fails, draw a placeholder
       pdfPage.drawRectangle({
-        x: cmd.x,
-        y: dims.height - cmd.y - cmd.height,
-        width: cmd.width,
-        height: cmd.height,
+        x: cmd.x * scale,
+        y: pageHeightPt - (cmd.y + cmd.height) * scale,
+        width: cmd.width * scale,
+        height: cmd.height * scale,
         color: rgb(0.9, 0.9, 0.9),
         borderColor: rgb(0.7, 0.7, 0.7),
         borderWidth: 1,

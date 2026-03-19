@@ -173,7 +173,11 @@ export function generateMonthPageCommands(
   const rowHeight = gridRect.height / totalRows;
 
   // Day headers
+  const firstDay = config.grid.firstDayOfWeek ?? 1; // 0=Sun, 1=Mon
   for (let i = 0; i < data.dayHeaders.length; i++) {
+    // Calculate actual day of week for this column
+    const dayOfWeek = (firstDay + i) % 7;
+    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
     commands.push({
       type: "gridCell",
       x: gridRect.x + i * colWidth,
@@ -181,7 +185,7 @@ export function generateMonthPageCommands(
       width: colWidth,
       height: rowHeight,
       text: data.dayHeaders[i],
-      isWeekend: i >= 5,
+      isWeekend,
       isHeader: true,
       font: config.typography.dayFont,
       size: config.typography.daySize,
