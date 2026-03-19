@@ -153,21 +153,25 @@ export function generateMonthPageCommands(
     });
   }
 
-  // Month title
+  // Month title — position so text clears the grid top (descenders stay above grid)
   const titleRect = rectToPixels(config.monthLayout.monthTitleArea, dims);
+  const imageRect = rectToPixels(config.monthLayout.imageArea, dims);
+  const gridRect = rectToPixels(config.monthLayout.calendarGridArea, dims);
+  const fontSizePx = config.typography.monthTitleSize * (dims.dpi / 72);
+  const titleY = Math.max(
+    imageRect.y + imageRect.height + fontSizePx * 0.5,
+    gridRect.y - fontSizePx
+  );
   commands.push({
     type: "text",
     x: titleRect.x + titleRect.width / 2,
-    y: titleRect.y + titleRect.height / 2,
+    y: titleY,
     text: data.monthName,
     font: config.typography.monthTitleFont,
     size: config.typography.monthTitleSize,
     color: config.colors.text,
     align: "center",
   });
-
-  // Calendar grid
-  const gridRect = rectToPixels(config.monthLayout.calendarGridArea, dims);
   const colWidth = gridRect.width / 7;
   const totalRows = data.weeks.length + 1; // +1 for header
   const rowHeight = gridRect.height / totalRows;
